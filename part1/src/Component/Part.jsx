@@ -1,9 +1,10 @@
 import React from "react";
 
-const Part = ({chapter, number}) => {
+const Part = ({val}) => {
+    console.log(val)
     return(
         <div> 
-        <p> {chapter} {number}</p>
+        <p> {val.name} {val.exercises} </p>
        </div>
  
     )
