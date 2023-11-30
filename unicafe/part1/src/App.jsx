@@ -20,7 +20,7 @@ const App = () => {
     setBad(bad + 1)
   }
 
-  return (
+  return (    
     <div>
     <h1>give feedback</h1>
     <button onClick={handleGoodIncrease}>good</button>
