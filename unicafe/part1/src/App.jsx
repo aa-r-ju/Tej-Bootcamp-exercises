@@ -19,6 +19,7 @@ const App = () => {
   const handleBadIncrease = () => {
     setBad(bad + 1)
   }
+  let add = good + neutral + bad
      
   return (    
     <div>
@@ -30,6 +31,9 @@ const App = () => {
     <p>good {good}</p>
     <p>neutral {neutral}</p>
     <p>bad {bad}</p>
+    <p>all {add}</p>
+    <p>average {(good - bad)/add}</p>
+    <p>positive {good/add * 100}%</p>
     
 
     </div>
