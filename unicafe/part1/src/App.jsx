@@ -1,11 +1,22 @@
 import { useState } from 'react'
 
+
+const Button = ({handleClick,text}) => {
+  return(
+    <button onClick={handleClick}>{text}</button>
+
+    )
+
+}
+
+
+
 const Statistics = ({good,neutral,bad}) => {
   let add = good + neutral + bad
-  let averageSum = (good - bad)/add
-  let positiveSum = good/add * 100
+  let average = (good - bad)/add
+  let positive = (good/add)*100
 
-  if(good === 0 && neutral === 0 && bad ===0 ){
+  if(good === 0 && neutral === 0 && bad === 0){
     return(
       <p> No feedback given </p>
     )
@@ -14,15 +25,31 @@ const Statistics = ({good,neutral,bad}) => {
   return(
     <>
       <h2>Statistics</h2>
-    <p>good {good}</p>
-    <p>neutral {neutral}</p>
-    <p>bad {bad}</p>
-    <p>all {add}</p>
-    <p>average {averageSum}</p>
-    <p>positive {positiveSum}%</p>
+      <StatisticsLine text="good" value ={good} />
+      <StatisticsLine text="neutral" value ={neutral} />
+      <StatisticsLine text="bad" value ={bad} />
+      <StatisticsLine text="all" value ={add} />
+      <StatisticsLine text="average" value ={average} />
+      <StatisticsLine text="positive" value ={positive} />
     </>
   )
 }
+
+
+
+const StatisticsLine = ({text, value }) => {
+      
+  return (
+    <>
+    <p>
+      {text} {value}
+    </p>
+    </>
+  );
+};
+
+
+
 
 
 const App = () => {
@@ -43,18 +70,21 @@ const App = () => {
   const handleBadIncrease = () => {
     setBad(bad + 1)
   }
+   
+
      
   return (    
     <div>
     <h1>give feedback</h1>
-    <button onClick={handleGoodIncrease}>good</button>
-    <button onClick = {handleNeutralIncrease}>neutral</button>
-    <button onClick = {handleBadIncrease}>bad</button>
-    <Statistics good={good} neutral={neutral} bad={bad}/>
-    
-
+   <Button handleClick={handleGoodIncrease} text="good"/>
+   <Button handleClick={handleNeutralIncrease} text="neutral"/>
+   <Button handleClick={handleBadIncrease} text="bad"/>
+    <Statistics  good={good} neutral={neutral} bad={bad}/>
+   
     </div>
   )
 }
 
-export default App
+
+
+ export default App
