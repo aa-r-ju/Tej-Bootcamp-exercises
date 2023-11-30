@@ -19,7 +19,7 @@ const App = () => {
   const handleBadIncrease = () => {
     setBad(bad + 1)
   }
-
+     
   return (    
     <div>
     <h1>give feedback</h1>
