@@ -1,9 +1,9 @@
 const Header = ({courseName}) => {
     return(
-      <h1>
+      <h3>
       {courseName}
   
-      </h1>
+      </h3>
     )
   }
   export default Header;
