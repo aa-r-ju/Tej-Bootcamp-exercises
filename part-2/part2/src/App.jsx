@@ -19,11 +19,20 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name:"Redux",
+        exercises:11,
+        id:4
       }
     ]
   }
 
-  return <Course course={course} />
+  return(
+    <div>
+  <Course course={course} />
+  </div>
+  )
 }
 
 export default App
