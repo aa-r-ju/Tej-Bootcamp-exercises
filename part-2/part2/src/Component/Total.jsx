@@ -3,4 +3,4 @@ const Total = ({ parts }) => {
   
     return <p> <b>Total exercises: {totalExercises} </b> </p>;
   }
-  export default Total;
+  export default Total;   
