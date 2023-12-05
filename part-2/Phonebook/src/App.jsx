@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Filter = ({ handleSearch }) => (
   <div>
@@ -32,12 +33,20 @@ const Persons = ({ filteredPersons }) => (
 );
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1234567' },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newVal, setNewVal] = useState('');
   const [searchVal, setSearchVal] = useState('');
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data from the server:', error);
+      });
+  }, []);
 
   const addNote = (event) => {
     event.preventDefault();
