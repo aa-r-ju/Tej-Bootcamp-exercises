@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import noteService from "./note"
 
 const Filter = ({ handleSearch }) => (
   <div>
@@ -39,12 +40,11 @@ const App = () => {
   const [searchVal, setSearchVal] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data from the server:', error);
+    noteService
+    .getAll()
+    .then(initialNotes => {
+      console.log(initialNotes,"aarju,,,")
+      setPersons(initialNotes)
       });
   }, []);
 
@@ -57,10 +57,20 @@ const App = () => {
     }
 
     const newPerson = { name: newName, number: newVal };
-    setPersons([...persons, newPerson]);
-    setNewName('');
-    setNewVal('');
-  };
+
+    noteService.create(newPerson)
+     .then(value => {
+       setPersons([...persons,value]);
+
+      setNewName('');
+      setNewVal('');
+    }).catch (error => {
+      console.error('Error adding person:', error);
+
+     })
+     
+    }
+
 
   const handleAddNote = (event) => {
     setNewName(event.target.value);
