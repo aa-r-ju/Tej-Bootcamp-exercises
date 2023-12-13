@@ -44,6 +44,25 @@ const App = () => {
      
     }
 
+    const handleDelete = (id) => {
+      const personToDelete = persons.find((person) => person.id === id);
+      
+      const confirmDeletion = window.confirm(`Delete ${personToDelete.name}?`);
+      
+      if (confirmDeletion) {
+        noteService
+          .remove(id)
+          .then(() => {
+            setPersons(persons.filter((person) => person.id !== id));
+          })
+          .catch((error) => {
+            console.error('Error deleting person:', error);
+          });
+      }
+    };
+    
+    
+
 
   const handleAddNote = (event) => {
     setNewName(event.target.value);
@@ -60,6 +79,8 @@ const App = () => {
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(searchVal.toLowerCase())
   );
+
+ 
 
   return (
     <div>
@@ -79,7 +100,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons filteredPersons={filteredPersons} />
+      <Persons filteredPersons={filteredPersons} handleDelete={handleDelete} />
     </div>
   );
 };

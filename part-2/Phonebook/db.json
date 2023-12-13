@@ -26,11 +26,6 @@
       "id": 5
     },
     {
-      "name": "hello",
-      "number": "55555",
-      "id": 6
-    },
-    {
       "name": "Hello world",
       "number": "55",
       "id": 7
@@ -41,11 +36,6 @@
       "id": 8
     },
     {
-      "name": "",
-      "number": "",
-      "id": 9
-    },
-    {
       "name": "apple",
       "number": "000",
       "id": 10
@@ -54,6 +44,11 @@
       "name": "orange",
       "number": "60",
       "id": 11
+    },
+    {
+      "name": "China",
+      "number": "98",
+      "id": 12
     }
   ]
 }
