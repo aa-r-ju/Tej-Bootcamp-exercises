@@ -27,7 +27,7 @@
     },
     {
       "name": "Hello world",
-      "number": "55",
+      "number": "980",
       "id": 7
     },
     {
@@ -44,11 +44,6 @@
       "name": "orange",
       "number": "60",
       "id": 11
-    },
-    {
-      "name": "China",
-      "number": "98",
-      "id": 12
     }
   ]
 }

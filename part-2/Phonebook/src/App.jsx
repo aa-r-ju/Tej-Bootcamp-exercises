@@ -60,7 +60,29 @@ const App = () => {
           });
       }
     };
-    
+
+    const existingPerson = persons.find((person) => person.name === newName);
+
+  if (existingPerson) {
+    const confirmUpdate = window.confirm(
+      `${newName} is already added to the phonebook. Replace the old number with the new one?`
+    );
+
+    if (confirmUpdate) {
+      const updatedPerson = { ...existingPerson, number: newVal };
+
+      noteService
+        .update(existingPerson.id, updatedPerson)
+        .then((updatedPerson) => {
+          setPersons(persons.map((person) => (person.id !== updatedPerson.id ? person : updatedPerson)));
+        })
+        .catch((error) => {
+          console.error('Error updating person:', error);
+        });
+    }
+  } else {
+    const newPerson = { name: newName, number: newVal };
+  }
     
 
 
@@ -79,6 +101,7 @@ const App = () => {
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(searchVal.toLowerCase())
   );
+
 
  
 
