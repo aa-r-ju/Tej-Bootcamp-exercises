@@ -1,37 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import noteService from "./note"
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
-const Filter = ({ handleSearch }) => (
-  <div>
-    Filter shown with: <input type='search' onChange={handleSearch} />
-  </div>
-);
-
-const PersonForm = ({ addNote, newName, handleAddNote, newVal, handleNewVal }) => (
-  <form onSubmit={addNote}>
-    <div>
-      name: <input value={newName} onChange={handleAddNote} />
-    </div>
-    <div>
-      number: <input value={newVal} onChange={handleNewVal} />
-    </div>
-
-    <div>
-      <button type="submit">add</button>
-    </div>
-  </form>
-);
-
-const Persons = ({ filteredPersons }) => (
-  <ul>
-    {filteredPersons.map((person, id) => (
-      <li key={id}>
-        {person.name} - {person.number}
-      </li>
-    ))}
-  </ul>
-);
 
 const App = () => {
   const [persons, setPersons] = useState([]);
