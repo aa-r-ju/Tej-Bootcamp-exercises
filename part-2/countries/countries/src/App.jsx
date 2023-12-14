@@ -28,23 +28,31 @@ const App = () => {
     }
   }, [searchQuery]);
 
+  const handleShowCountry = (country) => {
+    setSelectedCountry(country);
+  };
+
   return (
     <div>
-      <p>Find countries 
-      <input
-        type="text"
-        placeholder="Search for a country..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      /></p>
-      
+      <p>
+        Find countries
+        <input
+          type="text"
+          placeholder="Search for a country..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </p>
 
       {countries.length > 10 && <p>Too many matches. Specify another filter.</p>}
 
       {countries.length > 1 && countries.length <= 10 && (
         <ul>
           {countries.map((country) => (
-            <li key={country.name.common}>{country.name.common}</li>
+            <li key={country.name.common}>
+              {country.name.common}{' '}
+              <button onClick={() => handleShowCountry(country)}>Show</button>
+            </li>
           ))}
         </ul>
       )}
