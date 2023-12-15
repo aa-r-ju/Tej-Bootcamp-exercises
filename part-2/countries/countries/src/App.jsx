@@ -5,6 +5,12 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [weather, setWeather] = useState({
+    temp:"",
+    tempIcon:"",
+    wind:""
+  });
+
 
   useEffect(() => {
     const fetchCountries = () => {
@@ -31,6 +37,28 @@ const App = () => {
   const handleShowCountry = (country) => {
     setSelectedCountry(country);
   };
+
+
+  const apiKey = import.meta.env.VITE_SOME_KEY; // Replace with your actual API key
+
+  useEffect(() => {
+    const fetchWeather = () => {
+      if (selectedCountry && selectedCountry.capital) {
+        console.log(selectedCountry.capital,"helelo")
+        axios
+         .get(`https://api.openweathermap.org/data/2.5/weather?q=${selectedCountry.capital[0]}&appid=${apiKey}`)
+          .then((response) => {
+            setWeather({temp:response.data.main.temp,tempIcon:response.data.weather[0].icon,wind:response.data.wind.speed});
+            console.log(response.data,"kkk")
+          })
+          .catch((error) => {
+            console.error('Error fetching weather data:', error);
+          });
+      }
+    }; 
+
+    fetchWeather();
+  }, [selectedCountry]);
 
   return (
     <div>
@@ -64,6 +92,17 @@ const App = () => {
           <p>Area: {selectedCountry.area} km²</p>
           <p>Languages: {Object.values(selectedCountry.languages).join(', ')}</p>
           <img src={selectedCountry.flags.png} alt={`${selectedCountry.name.common} Flag`} />
+
+
+          {weather && (
+            <div>
+              <h3>Weather in Helsinki {selectedCountry.capital[0]}</h3>
+              <p>Temperature: {weather.temp} celcius</p>
+              <img  src={` https://openweathermap.org/img/wn/${weather.tempIcon}@2x.png`}/>
+              <p>wind:{weather.wind}</p>
+            </div>
+          )}
+
         </div>
       )}
     </div>
