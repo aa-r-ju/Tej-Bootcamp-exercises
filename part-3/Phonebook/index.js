@@ -1,6 +1,11 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 app.use(express.json());
+
+morgan.token('postData', (req, res) => JSON.stringify(req.body));
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'));
 
 let phonebookData = [
   {
@@ -57,23 +62,22 @@ app.get('/api/persons/:id', (req, res) => {
 });
 
 app.post('/api/persons', (req, res) => {
-    const newPerson = req.body;
-  
-    if (!newPerson.name || !newPerson.number) {
-      return res.status(400).json({ error: 'Name and number are required' });
-    }
-  
-    const nameExists = phonebookData.some(entry => entry.name === newPerson.name);
-    if (nameExists) {
-      return res.status(400).json({ error: 'Name must be unique' });
-    }
-  
-    newPerson.id = Math.floor(Math.random() * 1000000) + 1;
-  
-    phonebookData = [...phonebookData, newPerson];
-    res.json(newPerson);
-  });
-  
+  const newPerson = req.body;
+
+  if (!newPerson.name || !newPerson.number) {
+    return res.status(400).json({ error: 'Name and number are required' });
+  }
+
+  const nameExists = phonebookData.some(entry => entry.name === newPerson.name);
+  if (nameExists) {
+    return res.status(400).json({ error: 'Name must be unique' });
+  }
+
+  newPerson.id = Math.floor(Math.random() * 1000000) + 1;
+
+  phonebookData = [...phonebookData, newPerson];
+  res.json(newPerson);
+});
 
 app.delete('/api/persons/:id', (req, res) => {
   const myId = Number(req.params.id);
