@@ -39,10 +39,20 @@ app.get('/info', (req, res) => {
   const htmlResponse = `
     <p>PhoneBook has Info for ${numberOfEntries} people</p>
     <p>${requestTime}</p>
-    
   `;
 
   res.send(htmlResponse);
+});
+
+app.get('/api/persons/:id', (req, res) => {
+  const personId = Number(req.params.id);
+  const person = phonebookData.find(entry => entry.id === personId);
+
+  if (person) {
+    res.json(person);
+  } else {
+    res.status(404).json({ error: 'Person not found' });
+  }
 });
 
 const PORT = 3001;
