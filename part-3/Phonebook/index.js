@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const phonebookData = [
+let  phonebookData = [
   {
     id: 1,
     name: 'Arto Hellas',
@@ -54,6 +54,18 @@ app.get('/api/persons/:id', (req, res) => {
     res.status(404).json({ error: 'Person not found' });
   }
 });
+
+app.delete('/api/persons/:id', (req, res) => {
+    const myId = Number(req.params.id)
+    phonebookData = phonebookData.filter(note => note.id !== myId)
+  
+    if (phonebookData) {
+        res.status(204).end()
+  } else {
+    res.status(404).json({ error: 'Person not found' });
+  }
+  })
+
 
 const PORT = 3001;
 app.listen(PORT, () => {
