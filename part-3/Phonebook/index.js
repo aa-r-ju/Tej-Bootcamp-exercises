@@ -5,7 +5,7 @@ app.use(express.json());
 
 morgan.token('postData', (req, res) => JSON.stringify(req.body));
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'));
+app.use(morgan('tiny'));
 
 let phonebookData = [
   {
