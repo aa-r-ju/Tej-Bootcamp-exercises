@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 
-let  phonebookData = [
+let phonebookData = [
   {
     id: 1,
     name: 'Arto Hellas',
@@ -55,17 +56,25 @@ app.get('/api/persons/:id', (req, res) => {
   }
 });
 
+app.post('/api/persons', (req, res) => {
+  const newPerson = req.body;
+
+  newPerson.id = Math.floor(Math.random() * 1000000) + 1;
+
+  phonebookData = [...phonebookData, newPerson];
+  res.json(newPerson);
+});
+
 app.delete('/api/persons/:id', (req, res) => {
-    const myId = Number(req.params.id)
-    phonebookData = phonebookData.filter(note => note.id !== myId)
-  
-    if (phonebookData) {
-        res.status(204).end()
+  const myId = Number(req.params.id);
+  phonebookData = phonebookData.filter(note => note.id !== myId);
+
+  if (phonebookData) {
+    res.status(204).end();
   } else {
     res.status(404).json({ error: 'Person not found' });
   }
-  })
-
+});
 
 const PORT = 3001;
 app.listen(PORT, () => {
