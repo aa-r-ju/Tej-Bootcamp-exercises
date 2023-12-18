@@ -9,7 +9,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newVal, setNewVal] = useState('');
   const [searchVal, setSearchVal] = useState('');
-  const [notification, setNotification] = useState(null);
+  const [notification, setNotification] = useState();
 
   useEffect(() => {
     noteService.getAll()
