@@ -57,13 +57,23 @@ app.get('/api/persons/:id', (req, res) => {
 });
 
 app.post('/api/persons', (req, res) => {
-  const newPerson = req.body;
-
-  newPerson.id = Math.floor(Math.random() * 1000000) + 1;
-
-  phonebookData = [...phonebookData, newPerson];
-  res.json(newPerson);
-});
+    const newPerson = req.body;
+  
+    if (!newPerson.name || !newPerson.number) {
+      return res.status(400).json({ error: 'Name and number are required' });
+    }
+  
+    const nameExists = phonebookData.some(entry => entry.name === newPerson.name);
+    if (nameExists) {
+      return res.status(400).json({ error: 'Name must be unique' });
+    }
+  
+    newPerson.id = Math.floor(Math.random() * 1000000) + 1;
+  
+    phonebookData = [...phonebookData, newPerson];
+    res.json(newPerson);
+  });
+  
 
 app.delete('/api/persons/:id', (req, res) => {
   const myId = Number(req.params.id);
