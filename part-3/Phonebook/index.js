@@ -1,11 +1,18 @@
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
+const cors = require("cors")
 app.use(express.json());
+
+
+app.use(cors())
+app.use(express.static("dist"))
 
 morgan.token('postData', (req, res) => JSON.stringify(req.body));
 
 app.use(morgan('tiny'));
+
+
 
 let phonebookData = [
   {
@@ -30,9 +37,7 @@ let phonebookData = [
   },
 ];
 
-app.get('/', (req, res) => {
-  res.send("<h1>PhoneBook</h1>");
-});
+
 
 app.get('/api/persons', (req, res) => {
   res.json(phonebookData);

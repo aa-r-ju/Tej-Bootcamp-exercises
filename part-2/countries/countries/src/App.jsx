@@ -4,7 +4,7 @@ import axios from 'axios';
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState('');
   const [weather, setWeather] = useState({
     temp:"",
     tempIcon:"",
@@ -18,6 +18,7 @@ const App = () => {
         .then(response => {
           const data = response.data;
           setCountries(data);
+
           if (data.length === 1) {
             setSelectedCountry(data[0]);
           } else {
@@ -39,10 +40,10 @@ const App = () => {
   };
 
 
-  const apiKey = import.meta.env.VITE_SOME_KEY; // Replace with your actual API key
+  const apiKey = import.meta.env.VITE_SOME_KEY;
 
   useEffect(() => {
-    const fetchWeather = () => {
+  
       if (selectedCountry && selectedCountry.capital) {
         console.log(selectedCountry.capital,"helelo")
         axios
@@ -55,9 +56,7 @@ const App = () => {
             console.error('Error fetching weather data:', error);
           });
       }
-    }; 
-
-    fetchWeather();
+    
   }, [selectedCountry]);
 
   return (
