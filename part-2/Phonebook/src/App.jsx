@@ -45,7 +45,7 @@ const App = () => {
     }
 
     const newPerson = { name: newName, number: newVal };
-
+     let data = newPerson.name
     noteService.create(newPerson)
      .then(value => {
        setPersons([...persons,value]);
@@ -54,7 +54,7 @@ const App = () => {
        showSuccessNotification(`${newPerson.name} added to the phonebook.`);
      })
      .catch(error => {
-       showErrorNotification('Error adding person. Please try again.');
+       showErrorNotification(`Person validation failed: name: Path 'name' (${data}) is shorter than the minimum allowed length (3).`);
        console.error('Error adding person:', error);
      });
   };

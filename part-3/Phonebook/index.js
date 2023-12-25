@@ -4,16 +4,19 @@ const app = express();
 const cors = require("cors")
 app.use(express.json());
 const mongoose = require('mongoose')
+require("dotenv").config()
 
-
-const url =
-  `mongodb+srv://Phonebook:phonebook@phonebook.fclcj21.mongodb.net/Phonebook?retryWrites=true&w=majority`
+const url = process.env.MONGODB_URL
 
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const personSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type:String,
+    minLength:3,
+    required:true
+  },
   number: String,
 })
 
@@ -89,7 +92,7 @@ app.get('/api/persons/:id', (req, res, next) => {
   })
 });
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
   const newPerson = req.body;
 
   if (newPerson.name === undefined || newPerson.number === undefined) {
@@ -103,6 +106,8 @@ app.post('/api/persons', (req, res) => {
   
   person.save().then(result => {
     res.json(result)
+  }).catch(e => {
+    next(e)
   })
 });
 
@@ -148,8 +153,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
-
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({error:error.message})
+  }
   next(error)
 }
 
@@ -157,8 +163,5 @@ app.use(errorHandler)
 
 
 
-
-const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(process.env.PORT)
+  console.log(`Server running on port ${process.env.PORT}`);
