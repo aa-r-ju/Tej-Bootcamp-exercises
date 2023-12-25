@@ -3,6 +3,34 @@ const morgan = require('morgan');
 const app = express();
 const cors = require("cors")
 app.use(express.json());
+const mongoose = require('mongoose')
+
+
+const url =
+  `mongodb+srv://Phonebook:phonebook@phonebook.fclcj21.mongodb.net/Phonebook?retryWrites=true&w=majority`
+
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+})
+
+personSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+
+const Person = mongoose.model('Person', personSchema)
+
+
+
+
+
 
 
 app.use(cors())
@@ -14,33 +42,14 @@ app.use(morgan('tiny'));
 
 
 
-let phonebookData = [
-  {
-    id: 1,
-    name: 'Arto Hellas',
-    number: '040-123456',
-  },
-  {
-    id: 2,
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-  },
-  {
-    id: 3,
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-  },
-  {
-    id: 4,
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-  },
-];
+let phonebookData = [];
 
 
 
 app.get('/api/persons', (req, res) => {
-  res.json(phonebookData);
+  Person.find({}).then((result)=> {
+    res.json(result);
+  })
 });
 
 app.get('/info', (req, res) => {
@@ -56,14 +65,15 @@ app.get('/info', (req, res) => {
 });
 
 app.get('/api/persons/:id', (req, res) => {
-  const personId = Number(req.params.id);
-  const person = phonebookData.find(entry => entry.id === personId);
-
-  if (person) {
-    res.json(person);
-  } else {
-    res.status(404).json({ error: 'Person not found' });
-  }
+  Person.findById(req.params.id).then(result => {
+    if(result) {
+      res.json(result)
+    } else{
+      res.status(404).send(`There are no notes at ${req.params.id}`)
+    }
+  }).catch((e)=>{
+    next(e)
+  })
 });
 
 app.post('/api/persons', (req, res) => {
@@ -82,6 +92,18 @@ app.post('/api/persons', (req, res) => {
 
   phonebookData = [...phonebookData, newPerson];
   res.json(newPerson);
+
+
+
+  // const person = new Person({
+  //   name: 'Try not to laugh',
+  //   number: 666,
+  // })
+  
+  // person.save().then(result => {
+  //   console.log('note saved!')
+  //   mongoose.connection.close()
+  // })
 });
 
 app.delete('/api/persons/:id', (req, res) => {
