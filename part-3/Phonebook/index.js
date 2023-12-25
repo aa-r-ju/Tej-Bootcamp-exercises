@@ -45,6 +45,17 @@ app.use(morgan('tiny'));
 let phonebookData = [];
 
 
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
+app.use(requestLogger)
+
+
 
 app.get('/api/persons', (req, res) => {
   Person.find({}).then((result)=> {
@@ -64,7 +75,7 @@ app.get('/info', (req, res) => {
   res.send(htmlResponse);
 });
 
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
   Person.findById(req.params.id).then(result => {
     if(result) {
       res.json(result)
@@ -79,43 +90,50 @@ app.get('/api/persons/:id', (req, res) => {
 app.post('/api/persons', (req, res) => {
   const newPerson = req.body;
 
-  if (!newPerson.name || !newPerson.number) {
+  if (newPerson.name === undefined || newPerson.number === undefined) {
     return res.status(400).json({ error: 'Name and number are required' });
   }
 
-  const nameExists = phonebookData.some(entry => entry.name === newPerson.name);
-  if (nameExists) {
-    return res.status(400).json({ error: 'Name must be unique' });
-  }
-
-  newPerson.id = Math.floor(Math.random() * 1000000) + 1;
-
-  phonebookData = [...phonebookData, newPerson];
-  res.json(newPerson);
-
-
-
-  // const person = new Person({
-  //   name: 'Try not to laugh',
-  //   number: 666,
-  // })
+  const person = new Person({
+    name: newPerson.name,
+    number:newPerson.number,
+  })
   
-  // person.save().then(result => {
-  //   console.log('note saved!')
-  //   mongoose.connection.close()
-  // })
+  person.save().then(result => {
+    res.json(result)
+  })
 });
 
-app.delete('/api/persons/:id', (req, res) => {
-  const myId = Number(req.params.id);
-  phonebookData = phonebookData.filter(note => note.id !== myId);
-
-  if (phonebookData) {
-    res.status(204).end();
-  } else {
-    res.status(404).json({ error: 'Person not found' });
-  }
+app.delete('/api/persons/:id', (req, res, next) => {
+  Person.findByIdAndDelete(req.params.id)
+  .then(result => {
+    res.status(204).end()
+  }).catch(error => next(error) )
 });
+
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+
+
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+app.use(errorHandler)
+
+
+
 
 const PORT = 3001;
 app.listen(PORT, () => {
