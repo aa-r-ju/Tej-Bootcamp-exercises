@@ -63,17 +63,19 @@ app.get('/api/persons', (req, res) => {
   })
 });
 
-app.get('/info', (req, res) => {
-  const requestTime = new Date();
-  const numberOfEntries = phonebookData.length;
-
-  const htmlResponse = `
-    <p>PhoneBook has Info for ${numberOfEntries} people</p>
-    <p>${requestTime}</p>
-  `;
-
-  res.send(htmlResponse);
+app.get('/info', async (req, res) => {
+  try {
+    const count = await Person.countDocuments({});
+    const requestTime = new Date();
+    res.send(`
+      <p>PhoneBook has Info for ${count} people</p>
+      <p>${requestTime}</p>
+    `);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
+
 
 app.get('/api/persons/:id', (req, res, next) => {
   Person.findById(req.params.id).then(result => {
