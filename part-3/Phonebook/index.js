@@ -17,7 +17,15 @@ const personSchema = new mongoose.Schema({
     minLength:3,
     required:true
   },
-  number: String,
+  number: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        return /^\d{2}-\d{7}$|^\d{3}-\d{8}$/ .test(v);
+      },
+    },
+    required: [true, 'User phone number required']
+  }
 })
 
 personSchema.set('toJSON', {
@@ -39,13 +47,9 @@ const Person = mongoose.model('Person', personSchema)
 app.use(cors())
 app.use(express.static("dist"))
 
-morgan.token('postData', (req, res) => JSON.stringify(req.body));
+morgan.token('postData', (req) => JSON.stringify(req.body));
 
 app.use(morgan('tiny'));
-
-
-
-let phonebookData = [];
 
 
 const requestLogger = (request, response, next) => {
@@ -107,15 +111,16 @@ app.post('/api/persons', (req, res, next) => {
   person.save().then(result => {
     res.json(result)
   }).catch(e => {
+    console.log("from backend:", e)
     next(e)
   })
 });
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndDelete(req.params.id)
-  .then(result => {
+  .then(
     res.status(204).end()
-  }).catch(error => next(error) )
+).catch(error => next(error) )
 });
 
 
@@ -125,7 +130,7 @@ app.put('/api/persons/:id', (req, res, next) => {
     number: req.body.number
   };
 
-  Person.findByIdAndUpdate(req.params.id, updatedPerson, { new: true })
+  Person.findByIdAndUpdate(req.params.id, updatedPerson, { new: true})
     .then(updated => {
       if (updated) {
         res.json(updated);
@@ -135,17 +140,6 @@ app.put('/api/persons/:id', (req, res, next) => {
     })
     .catch(error => next(error));
 });
-
-
-
-
-
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
-
-app.use(unknownEndpoint)
-
 
 
 const errorHandler = (error, request, response, next) => {

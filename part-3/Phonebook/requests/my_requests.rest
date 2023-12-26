@@ -4,7 +4,16 @@ POST http://localhost:3001/api/persons/
 content-type: application/json
 
 {
-    "name": "or",
-    "number":2001
+    "name": "sharmila",
+    "number":"31-4"
+    
+}
+###
+PUT http://localhost:3001/api/persons/6589095822dcbb7cf093658e
+content-type: application/json
+
+{
+    "name": "Apple",
+    "number":"02"
     
 }

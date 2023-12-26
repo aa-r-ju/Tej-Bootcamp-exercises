@@ -5,8 +5,6 @@ if (process.argv.length<3) {
   process.exit(1)
 }
 
-const password = process.argv[2]
-
 const url = process.env.MONGODB_URL
 
 mongoose.set('strictQuery',false)
@@ -24,7 +22,7 @@ const person = new Person({
     number: '39-23-6423122',
 })
 
-person.save().then(result => {
-  console.log('note saved!')
+person.save().then(
+  console.log('note saved!'),
   mongoose.connection.close()
-})
+)
