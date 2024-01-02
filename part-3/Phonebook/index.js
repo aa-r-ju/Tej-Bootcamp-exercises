@@ -38,17 +38,8 @@ personSchema.set('toJSON', {
 
 const Person = mongoose.model('Person', personSchema)
 
-
-
-
-
-
-
 app.use(cors())
 app.use(express.static("dist"))
-
-morgan.token('postData', (req) => JSON.stringify(req.body));
-
 app.use(morgan('tiny'));
 
 

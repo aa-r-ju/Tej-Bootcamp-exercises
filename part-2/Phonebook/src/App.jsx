@@ -30,7 +30,7 @@ const App = () => {
   };
 
   const showErrorNotification = (message) => {
-    setNotification({ type: 'error', message });
+    setNotification({ type: 'error', message});
     setTimeout(() => {
       setNotification(null);
     }, 5000);
