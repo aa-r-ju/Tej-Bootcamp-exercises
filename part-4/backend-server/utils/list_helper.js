@@ -5,11 +5,11 @@ const dummy = (blogs) => {
   
 
 const  totalLikes = (listWithOneBlog) => {
-    if(listWithOneBlog !== 5) {
-        return "there are no match"
+    let newVal = 0;
+    if(listWithOneBlog.length === 1) {
+        newVal = listWithOneBlog[0].likes
     }
-        return 5
-    
+    return newVal
 }
 
 module.exports = {
