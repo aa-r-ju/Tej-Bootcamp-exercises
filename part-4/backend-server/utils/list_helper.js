@@ -57,9 +57,40 @@ const dummy = (blogs) => {
     };
 }
 
+
+const mostLikes = (blogs) => {
+    const likesCount = {};
+
+    blogs.forEach(blog => {
+        const author = blog.author;
+        const likes = blog.likes;
+
+        if (!likesCount[author]) {
+            likesCount[author] = 0;
+        }
+
+        likesCount[author] += likes;
+    });
+
+    let maxLikes = 0;
+    let topAuthor = '';
+
+    for (let author in likesCount) {
+        if (likesCount[author] > maxLikes) {
+            maxLikes = likesCount[author];
+            topAuthor = author;
+        }
+    }
+
+    return {
+        author: topAuthor,
+        likes: maxLikes
+    };
+}
+
   
 
   module.exports = {
-    dummy,totalLikes,favoriteBlog,mostBlogs
+    dummy,totalLikes,favoriteBlog,mostBlogs,mostLikes
   }
   
