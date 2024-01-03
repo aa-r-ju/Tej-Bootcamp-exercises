@@ -32,9 +32,34 @@ const dummy = (blogs) => {
   };
   
 
+
+  const mostBlogs = (blogs) => {
+    const blogsByAuthor = {};
+    blogs.forEach(blog => {
+        if (!blogsByAuthor[blog.author]) {
+            blogsByAuthor[blog.author] = [];
+        }
+        blogsByAuthor[blog.author].push(blog);
+    });
+
+    let maxBlogs = 0;
+    let topAuthor = '';
+    for (let author in blogsByAuthor) {
+        if (blogsByAuthor[author].length > maxBlogs) {
+            maxBlogs = blogsByAuthor[author].length;
+            topAuthor = author;
+        }
+    }
+
+    return {
+        author: topAuthor,
+        blogs: maxBlogs
+    };
+}
+
   
 
   module.exports = {
-    dummy,totalLikes,favoriteBlog
+    dummy,totalLikes,favoriteBlog,mostBlogs
   }
   
