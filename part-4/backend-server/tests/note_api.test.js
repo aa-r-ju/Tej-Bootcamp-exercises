@@ -2,27 +2,14 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/note')
+const helpers =require("./test_helper")
 
-const initialNotes = [
-  {
-    title: 'Blog-list',
-    author: "Aarju",
-    url: "http://localhost:3005/api/notes",
-    likes: 5
-  },
-  {
-    title: 'Second-Blog',
-    author: "Aarju",
-    url: "http://localhost:3005/api/notes",
-    likes: 15
-  },
-]
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  let noteObject = new Blog(initialNotes[0])
+  let noteObject = new Blog(helpers.initialNotes[0])
   await noteObject.save()
-  noteObject = new Blog(initialNotes[1])
+  noteObject = new Blog(helpers.initialNotes[1])
   await noteObject.save()
 })
 
@@ -36,15 +23,57 @@ test('blogs are returned as json', async () => {
 },10000)
 
 test('there are two blogs', async () => {
-    const response = await api.get('/api/blogs')
+    const response = await helpers.notesInDb()
   
-    expect(response.body).toHaveLength(initialNotes.length)
+    expect(response).toHaveLength(helpers.initialNotes.length)
   })
   
   test('the first blog is about HTTP methods', async () => {
+    const response = await helpers.notesInDb()
+  
+    expect(response[0].title).toBe(helpers.initialNotes[0].title)
+  })
+
+
+  test('a valid note can be added', async () => {
+    const newNote = {
+        title: 'async/await simplifies making async calls',
+        author: "Aarju",
+        url: "http://localhost:3006/api/notes",
+        likes: 15
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newNote)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
     const response = await api.get('/api/blogs')
   
-    expect(response.body[0].title).toBe(initialNotes.length[0].title)
+    const contents = response.body.map(r => r.title)
+  
+    expect(response.body).toHaveLength(helpers.initialNotes.length + 1)
+    expect(contents).toContain(
+      'async/await simplifies making async calls'
+    )
+  })
+
+  test('a blog without valid blog can not be added', async () => {
+    const newNote = {
+        author: "Aarju",
+        url: "http://localhost:3006/api/notes",
+        likes: 55
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newNote)
+      .expect('Content-Type', /application\/json/)
+  
+    const response = await api.get('/api/blogs')
+    
+    expect(response.body).toHaveLength(helpers.initialNotes.length + 1)
   })
 
 afterAll(async () => {
