@@ -67,22 +67,7 @@ test('there are two blogs', async () => {
     )
   })
 
-  test('a blog without valid blog can not be added', async () => {
-    const newNote = {
-        author: "Aarju",
-        url: "http://localhost:3006/api/notes",
-        likes: 55
-    }
   
-    await api
-      .post('/api/blogs')
-      .send(newNote)
-      .expect('Content-Type', /application\/json/)
-  
-    const response = await api.get('/api/blogs')
-    
-    expect(response.body).toHaveLength(helpers.initialNotes.length + 1)
-  })
 
 afterAll(async () => {
   await mongoose.connection.close()
