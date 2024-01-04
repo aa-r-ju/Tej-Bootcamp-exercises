@@ -5,7 +5,7 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-  "title": "Blog-list",
+  "title": "Backend is hard",
   "author": "Aarju",
   "url": "http://localhost:3001/api/notes",
   "likes": 5

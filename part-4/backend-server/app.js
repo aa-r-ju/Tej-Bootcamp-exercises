@@ -11,6 +11,7 @@ const {errorHandler,unknownEndpoint} = require("./utils/middleware")
 
 mongoose.connect(url)
 
+console.log("NODE_ENV is",process.env.NODE_ENV)
 
 app.use(cors())
 app.use(express.static("dist"))
