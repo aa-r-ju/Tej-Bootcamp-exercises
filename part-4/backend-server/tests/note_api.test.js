@@ -34,6 +34,14 @@ test('there are two blogs', async () => {
     expect(response[0].title).toBe(helpers.initialNotes[0].title)
   })
 
+  test("unique identifier property of the blog posts is named id", async () => {
+    const response = await api.get("/api/blogs");
+    const returnBlog = response.body;
+    returnBlog.forEach((blog) => {
+      expect(blog.id).toBeDefined();
+    });
+  });
+
 
   test('a valid note can be added', async () => {
     const newNote = {
