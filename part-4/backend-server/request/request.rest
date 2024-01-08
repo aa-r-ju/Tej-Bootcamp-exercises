@@ -5,7 +5,9 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-      "title": "Aarju",
+      "title": "Database-Aarju",
       "author": "Aarju",
       "url":"http://localhost:3001/api/notes"
   }
+###
+DELETE  http://localhost:3003/api/blogs/6596935f58c4ce640f986f66

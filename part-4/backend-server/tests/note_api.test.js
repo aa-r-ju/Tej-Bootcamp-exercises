@@ -88,6 +88,22 @@ test('there are two blogs', async () => {
  await api.post('/api/blogs').send(testBlog).expect(400)
 })
 
+test('DELETE /api/blogs/:id deletes a single blog post', async () => {
+    const initialBlogs = await helpers.notesInDb();
+    const blogToDelete = initialBlogs[0];
+  
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204);
+  
+    const blogsAfterDelete = await helpers.notesInDb();
+  
+    expect(blogsAfterDelete).toHaveLength(initialBlogs.length - 1);
+  
+    const ids = blogsAfterDelete.map(blog => blog.id);
+    expect(ids).not.toContain(blogToDelete.id);
+  });
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
