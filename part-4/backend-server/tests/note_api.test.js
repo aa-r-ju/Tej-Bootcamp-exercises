@@ -80,6 +80,14 @@ test('there are two blogs', async () => {
     expect(response.body.likes).toBe(0);
   });
 
+  test('show "400" if title and url missing', async () => {
+  const testBlog = {
+    author: "missing title",
+    likes:1
+  }  
+ await api.post('/api/blogs').send(testBlog).expect(400)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })

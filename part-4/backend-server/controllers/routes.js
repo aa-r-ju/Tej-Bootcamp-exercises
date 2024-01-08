@@ -16,23 +16,23 @@ app.get('/:id', (request, response,next) => {
       } else {
           response.status(404).send({error: `${request.params.id} not found`})
       }
-  }).catch(e => {
-      next(e)
+  }).catch(error => {
+      next(error)
   })
 })
   
-app.post('/', async(request, response,next) => {
-  const blog = new Blog(request.body)
-  if (blog.likes === undefined) {
-    blog.likes = 0;
+app.post('/', async(request, response, next) => {
+  const blog = new Blog(request.body);
+  if (!blog.title || !blog.url) {
+    response.status(400).json({error: "missing property"}).end();
   }
-try {
+  try {
     const result = await blog.save();
     response.status(201).json(result);
   } catch (error) {
     next(error);
   }
-})
+});
 
   module.exports = app;
 
