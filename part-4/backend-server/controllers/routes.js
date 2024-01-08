@@ -48,5 +48,26 @@ app.delete('/:id', async (request, response, next) => {
   }
 });
 
+
+app.put('/:id', async (request, response, next) => {
+  const { likes } = request.body;
+
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      { likes },
+      { new: true }  
+    );
+
+    if (updatedBlog) {
+      response.json(updatedBlog);
+    } else {
+      response.status(404).json({ error: 'Blog not found' });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
   module.exports = app;
 

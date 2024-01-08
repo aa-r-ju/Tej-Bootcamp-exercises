@@ -5,9 +5,22 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-      "title": "Database-Aarju",
+      "title": "Database-Aarju5",
       "author": "Aarju",
-      "url":"http://localhost:3001/api/notes"
+      "url":"http://localhost:3001/api/notes",
+      "likes":10
+
   }
 ###
 DELETE  http://localhost:3003/api/blogs/6596935f58c4ce640f986f66
+###
+
+PUT http://localhost:3003/api/blogs/659bb285e8ef6ba652199894
+Content-Type: application/json
+
+{
+    "title":"blog1",
+    "author":"AarjuPariyar",
+    "url":"http://localhost:3001/api/notes/id",
+    "likes":75
+}

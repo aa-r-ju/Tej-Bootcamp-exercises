@@ -104,6 +104,22 @@ test('DELETE /api/blogs/:id deletes a single blog post', async () => {
     expect(ids).not.toContain(blogToDelete.id);
   });
 
+  test('PUT /api/blogs/:id updates the likes of a single blog post', async () => {
+    const initialBlogs = await helpers.notesInDb();
+    const blogToUpdate = initialBlogs[0];
+  
+    const updatedBlogData = {
+      likes: blogToUpdate.likes + 1,
+    };
+  
+    const response = await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlogData)
+      .expect(200);
+  
+    expect(response.body.likes).toBe(blogToUpdate.likes + 1);
+  });
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
