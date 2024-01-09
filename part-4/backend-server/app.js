@@ -3,6 +3,7 @@ const app = express()
 app.use(express.json())
 const cors = require('cors')
 const notesControllers = require("./controllers/routes")
+const usersControllers = require("./controllers/users")
 const mongoose = require('mongoose')
 require('mongodb')
 const {url} = require("./utils/config")
@@ -18,6 +19,7 @@ app.use(express.static("dist"))
 
 app.use(errorHandler)
 app.use("/api/blogs", notesControllers)
+app.use("/api/users", usersControllers)
 
 app.use(unknownEndpoint)
 

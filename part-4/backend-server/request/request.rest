@@ -24,3 +24,14 @@ Content-Type: application/json
     "url":"http://localhost:3001/api/notes/id",
     "likes":75
 }
+###
+
+
+POST http://localhost:3003/api/user
+Content-Type: application/json
+
+{
+   "username": "mluukkai",
+   "name": "Matti Luukkainen",
+   "password": "salainen",
+}
