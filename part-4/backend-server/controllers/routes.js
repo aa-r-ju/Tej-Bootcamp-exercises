@@ -1,8 +1,9 @@
 const Blog = require("../models/note")
 const app = require("express").Router()
+const User = require("../models/user")
 app.get('/', async (request, response, next) => {
   try {
-    let result = await Blog.find({});
+    let result = await Blog.find({}).populate("user",{username:1, name: 1});
     response.json(result);
   } catch (error) {
     next(error); 
@@ -22,12 +23,20 @@ app.get('/:id', (request, response,next) => {
 })
   
 app.post('/', async(request, response, next) => {
-  const blog = new Blog(request.body);
-  if (!blog.title || !blog.url) {
-    response.status(400).json({error: "missing property"}).end();
-  }
+ 
   try {
+    const bloguser = await User.findById(request.body.userId);
+    const blog = new Blog({
+    title: request.body.title,
+    author: request.body.author,
+    url: request.body.author,
+    likes: request.body.likes || 0,
+    user: bloguser.id,
+  });
+   
     const result = await blog.save();
+    bloguser.Blog = bloguser.Blog.concat(result._id)
+    await bloguser.save()
     response.status(201).json(result);
   } catch (error) {
     next(error);

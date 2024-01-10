@@ -5,10 +5,11 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-      "title": "Database-Aarju5",
+      "title": "mongoDB",
       "author": "Aarju",
-      "url":"http://localhost:3001/api/notes",
-      "likes":10
+      "userId":"659e3395da65146279eff6ad",
+      "url":"http://localhost:3001/api/notes/123",
+      "likes":100
 
   }
 ###
@@ -33,8 +34,9 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username":"Aarju",
-    "name":"Aarjupariyar",
-    "password":"geeta"
+    "username":"King5",
+    "name":"kingKhan1234",
+    "password":"geeta123"
 
 }
+

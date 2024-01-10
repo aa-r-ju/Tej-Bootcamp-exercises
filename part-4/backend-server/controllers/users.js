@@ -3,8 +3,9 @@ const app = require("express").Router()
 const bcrypt = require("bcrypt")
 app.get('/', async (request, response, next) => {
   try {
-    let result = await User.find({});
-    response.json(result);
+    const result = await User
+      .find({}).populate("Blog",{title:1,author:1});
+     response.json(result)
   } catch (error) {
     next(error); 
   }
