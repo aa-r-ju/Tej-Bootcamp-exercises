@@ -1,17 +1,17 @@
 GET http://localhost:3003/api/blogs
 ###
 
-POST http://localhost:3003/api/blogs
-content-type: application/json
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iktpbmc3NSIsImlkIjoiNjU5ZTRjNjYxZGMzYjA4MzE3ODU3MGNhIiwiaWF0IjoxNzA0ODczNTExfQ.BASH9IU5DipTIvQV3DVruS_Q796t4oThZPvu4_15yl0
 
 {
-      "title": "mongoDB",
-      "author": "Aarju",
-      "userId":"659e4c661dc3b083178570ca",
-      "url":"http://localhost:3001/api/notes/123",
-      "likes":100
-
-  }
+    "title": "mongoDB",
+    "author": "Aarju",
+    "userId":"659e4c661dc3b083178570ca",
+    "url":"http://localhost:3001/api/notes/123",
+    "likes":100
+}
 ###
 DELETE  http://localhost:3003/api/blogs/6596935f58c4ce640f986f66
 ###
