@@ -1,7 +1,8 @@
 const Blog = require("../models/note")
 const app = require("express").Router()
 const User = require("../models/user")
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { tokenExtractor } = require("../utils/middleware");
 
 app.get('/', async (request, response, next) => {
   try {
@@ -36,7 +37,7 @@ const getTokenFrom = request => {
 
 
   
-app.post('/', async(request, response, next) => {
+app.post('/',tokenExtractor, async(request, response, next) => {
  
   try {
     const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
@@ -62,18 +63,31 @@ app.post('/', async(request, response, next) => {
 });
 
 
-app.delete('/:id', async (request, response, next) => {
-  try {
-    const result = await Blog.findByIdAndDelete(request.params.id);
-    if (result) {
-      response.status(204).end();  
-    } else {
-      response.status(404).json({ error: 'Blog not found' });
+app.delete('/:id', async (request, response,next) => {
+  try { 
+    await Blog.findByIdAndDelete(request.params.id)
+    response.send().end()
+
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: "token invalid" });
     }
-  } catch (error) {
-    next(error);
+
+    const user = await User.findById(decodedToken.id);
+    const blog = await Blog.findById(request.params.id);
+
+    if (blog.user.toString() === user.id.toString()) {
+      await Blog.findByIdAndRemove(request.params.id);
+      response.status(204).send("Blog deleted");
+    } else {
+      response.status(401).send("Unauthorized deletion tried");
+    }
   }
-});
+  catch (error) {
+    next(error)
+  }
+})
 
 
 app.put('/:id', async (request, response, next) => {

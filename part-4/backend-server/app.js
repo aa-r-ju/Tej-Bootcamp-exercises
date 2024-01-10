@@ -19,7 +19,7 @@ mongoose.connect(url)
 app.use(cors())
 app.use(express.static("dist"))
 
-
+app.use(middleware.tokenExtractor)
 app.use(errorHandler)
 app.use("/api/blogs", notesControllers)
 app.use("/api/users", usersControllers)
@@ -27,7 +27,6 @@ app.use("/api/login", loginController)
 
 
 app.use(unknownEndpoint)
-app.use(middleware.tokenExtractor)
 
 
 
