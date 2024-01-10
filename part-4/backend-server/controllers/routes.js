@@ -44,13 +44,15 @@ app.post('/',tokenExtractor, async(request, response, next) => {
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token invalid' })
     }
-    const bloguser = await User.findById(decodedToken.id)
+    // const bloguser = await User.findById(decodedToken.id)
+    const bloguser = await User.findById(request.user);
+
      const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
-    url: request.body.author,
+    url: request.body.url,
     likes: request.body.likes || 0,
-    user: bloguser.id,
+    user: request.user,
   });
    
     const result = await blog.save();
@@ -64,19 +66,9 @@ app.post('/',tokenExtractor, async(request, response, next) => {
 
 
 app.delete('/:id', async (request, response,next) => {
-  try { 
-    await Blog.findByIdAndDelete(request.params.id)
-    response.send().end()
-
-
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: "token invalid" });
-    }
-
-    const user = await User.findById(decodedToken.id);
+  try {
+    const user = request.user;
     const blog = await Blog.findById(request.params.id);
-
     if (blog.user.toString() === user.id.toString()) {
       await Blog.findByIdAndRemove(request.params.id);
       response.status(204).send("Blog deleted");
