@@ -7,7 +7,7 @@ content-type: application/json
 {
       "title": "mongoDB",
       "author": "Aarju",
-      "userId":"659e3395da65146279eff6ad",
+      "userId":"659e4c661dc3b083178570ca",
       "url":"http://localhost:3001/api/notes/123",
       "likes":100
 
@@ -34,9 +34,18 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username":"King5",
-    "name":"kingKhan1234",
+    "username":"King75",
+    "name":"Aarju",
     "password":"geeta123"
 
+}
+###
+
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username":"King75",
+    "password":"geeta123"
 }
 

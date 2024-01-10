@@ -8,6 +8,8 @@ const mongoose = require('mongoose')
 require('mongodb')
 const {url} = require("./utils/config")
 const {errorHandler,unknownEndpoint} = require("./utils/middleware")
+const loginController = require("./controllers/login")
+
 
 
 mongoose.connect(url)
@@ -20,6 +22,8 @@ app.use(express.static("dist"))
 app.use(errorHandler)
 app.use("/api/blogs", notesControllers)
 app.use("/api/users", usersControllers)
+app.use("/api/login", loginController)
+
 
 app.use(unknownEndpoint)
 
