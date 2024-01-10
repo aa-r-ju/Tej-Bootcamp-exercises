@@ -9,6 +9,7 @@ require('mongodb')
 const {url} = require("./utils/config")
 const {errorHandler,unknownEndpoint} = require("./utils/middleware")
 const loginController = require("./controllers/login")
+const middleware = require("./utils/middleware")
 
 
 
@@ -26,6 +27,8 @@ app.use("/api/login", loginController)
 
 
 app.use(unknownEndpoint)
+app.use(middleware.tokenExtractor)
+
 
 
 module.exports = app;
