@@ -4,14 +4,11 @@ const User = require("../models/user")
 const jwt = require('jsonwebtoken');
 const { tokenExtractor } = require("../utils/middleware");
 
-app.get('/', async (request, response, next) => {
-  try {
-    let result = await Blog.find({}).populate("user",{username:1, name: 1});
-    response.json(result);
-  } catch (error) {
-    next(error); 
-  }
-});
+app.get('/', async(request, response) => {
+  const blogs = await Blog
+    .find({}).populate("user",{username:1, name: 1})
+   response.json(blogs)
+})
 
 app.get('/:id', (request, response,next) => {
   Blog.findById(request.params.id).then(result => {
@@ -44,7 +41,6 @@ app.post('/',tokenExtractor, async(request, response, next) => {
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token invalid' })
     }
-    // const bloguser = await User.findById(decodedToken.id)
     const bloguser = await User.findById(request.user);
 
      const blog = new Blog({

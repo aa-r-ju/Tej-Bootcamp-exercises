@@ -6,7 +6,7 @@ Content-Type: application/json
 authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iktpbmc3NSIsImlkIjoiNjU5ZTRjNjYxZGMzYjA4MzE3ODU3MGNhIiwiaWF0IjoxNzA0ODc5MDExLCJleHAiOjE3MDQ4ODI2MTF9.XVgoWVzeGWNUAAJcIOCujbgkSAVMwm1IKE2mDQmUyPM
 
 {
-    "title": "period_pain",
+    "title": "hello_world",
     "author": "Aarju",
     "userId":"659e4c661dc3b083178570ca",
     "url":"http://localhost:3001/api/notes/123",
