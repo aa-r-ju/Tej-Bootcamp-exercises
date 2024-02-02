@@ -3,13 +3,11 @@ const app = require("express").Router()
 const User = require("../models/user")
 const jwt = require('jsonwebtoken');
 const { tokenExtractor } = require("../utils/middleware");
-
 app.get('/', async(request, response) => {
   const blogs = await Blog
     .find({}).populate("user",{username:1, name: 1})
    response.json(blogs)
 })
-
 app.get('/:id', (request, response,next) => {
   Blog.findById(request.params.id).then(result => {
       if (result) {
@@ -22,17 +20,13 @@ app.get('/:id', (request, response,next) => {
   })
 })
 
-
-  
 app.post('/', tokenExtractor, async (request, response, next) => {
   try {
-    // Assuming tokenExtractor sets the user property on the request object
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
 
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token invalid' });
     }
-
     const bloguser = await User.findById(decodedToken.id);
 
     const blog = new Blog({
@@ -69,18 +63,14 @@ app.delete('/:id', async (request, response,next) => {
     next(error)
   }
 })
-
-
 app.put('/:id', async (request, response, next) => {
   const { likes } = request.body;
-
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(
       request.params.id,
       { likes },
       { new: true }  
     );
-
     if (updatedBlog) {
       response.json(updatedBlog);
     } else {
@@ -90,6 +80,4 @@ app.put('/:id', async (request, response, next) => {
     next(error);
   }
 });
-
   module.exports = app;
-

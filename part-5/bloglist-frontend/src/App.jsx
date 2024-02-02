@@ -2,37 +2,55 @@ import React, { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login'
+import './main.css'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [notification, setNotification] = useState('')
+  const [errmessage , setErrormessage] = useState('')
   const [newBlogTitle, setnewBlogTitle] = useState('')
   const [newBlogAuthor, setnewBlogAuthor] = useState('')
   const [newBlogUrl,setnewBlogUrl] = useState('')
-
-
+  
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
     let my_user = window.localStorage.getItem("user")
     if (my_user) {
       setUser(JSON.parse(my_user))
-
     }
   }, []);
-
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in with', username, password)
-    let user = await loginService.login({
-      username,
-      password
-    })
-    blogService.setToken(user.token);
-    console.log(user.token,"anytoken?")
-    window.localStorage.setItem('user', JSON.stringify(user)) 
-    setUser(user);
+    try {   
+      let user = await loginService.login({
+        username,
+        password
+      })
+  //set user token in blogService
+  blogService.setToken(user.token);
+
+  //save user data in localstorage
+  window.localStorage.setItem('user', JSON.stringify(user)) 
+
+  //set user state
+  setUser(user);
+  setNotification({ message: `${user.username} logged in` })
+  setTimeout(() => {
+    setNotification(null)
+  },3000)
+
+    }
+    catch (error){
+      setErrormessage("wrong username or password")
+      setTimeout(() => {
+        setErrormessage(null)
+      },1000)
+    }
   }
 
   const handleAddNewBlog = async (event) => {
@@ -43,8 +61,23 @@ const App = () => {
       url: newBlogUrl
     }
     const createdBlog = await blogService.create(newBlog)
-
     setBlogs([...blogs, createdBlog]);
+    setnewBlogTitle('')
+    setnewBlogAuthor('')
+    setnewBlogUrl('')
+    setNotification({ message:`A new blog ${createdBlog.title}! by ${createdBlog.author} added successfully.` })
+    setTimeout(() => {
+    setNotification(null)
+    },3000)
+  }
+
+  const Notification = ({ type, message }) => {
+    if (message === null) {
+      return null;
+    }
+    return (<div
+      className={type === "errmessage" ? "errmessage" : "notification"} > {message}
+    </div>)
   }
 
 
@@ -52,6 +85,8 @@ const App = () => {
     return(
       <div>
         <h2>Log in to application</h2>
+        {notification && <Notification message={notification.message} />}
+  {errmessage && <Notification type="errmessage" message={errmessage} />}
     <form onSubmit={handleLogin}>
         <div>
           username
@@ -79,11 +114,16 @@ const App = () => {
   const blogForm = () => {
     const handleLogout = () => {
       window.localStorage.removeItem('user');
+      setNotification({ message: `${user.username} logged out` });
       setUser(null);
+      setTimeout(() => {
+        setNotification(null);
+      }, 2000);
       }
       return (
         <div>
           <h2>blogs</h2>
+          <Notification message={notification ? notification.message : null}/>
           {user.name} logged in
           <button onClick={handleLogout}>logout</button>
           <br />
@@ -113,14 +153,12 @@ const App = () => {
                 onChange={({ target })=>setnewBlogUrl(target.value)}
               />
             </div>
-
             <button type="submit">create</button>
           </form>
           <br />
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
-
         </div>
       )
     
@@ -128,12 +166,8 @@ const App = () => {
   return (
     <div>
       {user === null ? loginForm() : blogForm()}
-
-
     </div>
   )
-  
 
 }
-
 export default App;

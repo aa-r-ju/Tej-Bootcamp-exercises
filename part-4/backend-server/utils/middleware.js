@@ -35,7 +35,6 @@ const unknownEndpoint = (request, response) => {
     }
   };
 
-
   const userExtractor = async (request, response, next) => {
     const token = request.token;
 
