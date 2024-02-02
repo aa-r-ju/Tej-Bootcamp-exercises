@@ -35,7 +35,7 @@ const App = () => {
     setUser(user);
   }
 
-  const handleAddBlog = async (event) => {
+  const handleAddNewBlog = async (event) => {
     event.preventDefault();
     const newBlog = {
       title: newBlogTitle,
@@ -88,7 +88,7 @@ const App = () => {
           <button onClick={handleLogout}>logout</button>
           <br />
           <h2>create new</h2>
-          <form onSubmit={handleAddBlog}>
+          <form onSubmit={handleAddNewBlog}>
             <div>
               Title:
               <input
