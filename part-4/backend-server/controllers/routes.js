@@ -23,42 +23,35 @@ app.get('/:id', (request, response,next) => {
 })
 
 
-
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
-
-
   
-app.post('/',tokenExtractor, async(request, response, next) => {
- 
+app.post('/', tokenExtractor, async (request, response, next) => {
   try {
-    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token invalid' })
-    }
-    const bloguser = await User.findById(request.user);
+    // Assuming tokenExtractor sets the user property on the request object
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
 
-     const blog = new Blog({
-    title: request.body.title,
-    author: request.body.author,
-    url: request.body.url,
-    likes: request.body.likes || 0,
-    user: request.user,
-  });
-   
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token invalid' });
+    }
+
+    const bloguser = await User.findById(decodedToken.id);
+
+    const blog = new Blog({
+      title: request.body.title,
+      author: request.body.author,
+      url: request.body.url,
+      likes: request.body.likes || 0,
+      user: decodedToken.id,
+    });
+
     const result = await blog.save();
-    bloguser.Blog = bloguser.Blog.concat(result._id)
-    await bloguser.save()
+    bloguser.Blog = bloguser.Blog.concat(result._id);
+    await bloguser.save();
     response.status(201).json(result);
   } catch (error) {
     next(error);
   }
 });
+
 
 
 app.delete('/:id', async (request, response,next) => {

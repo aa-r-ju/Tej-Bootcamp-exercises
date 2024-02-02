@@ -12,7 +12,7 @@ const getAll = async (blogs) => {
   return response.data;
 }
 
-const create = async newblogs => {
+const create = async (newblogs) => {
   const config = {
     headers: { Authorization: token },
   }
