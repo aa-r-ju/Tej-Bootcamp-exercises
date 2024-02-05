@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
-import loginService from './services/login'
-import './main.css'
+import loginService from './services/login';
+import './main.css';
 import Notification from './components/Notification';
-import Togglable from './components/Toggleable'
+import Togglable from './components/Toggleable';
 import BlogForm from './components/BlogsForm';
 import LoginForm from './components/LoginsForm';
 
@@ -15,17 +15,17 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState('')
-  const [errormessage , setErrormessage] = useState('')
-  const [newBlogTitle, setnewBlogTitle] = useState('')
-  const [newBlogAuthor, setnewBlogAuthor] = useState('')
-  const [newBlogUrl,setnewBlogUrl] = useState('')
+  const [notification, setNotification] = useState('');
+  const [errormessage , setErrormessage] = useState('');
+  const [newBlogTitle, setnewBlogTitle] = useState('');
+  const [newBlogAuthor, setnewBlogAuthor] = useState('');
+  const [newBlogUrl,setnewBlogUrl] = useState('');
   
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
-    let my_user = window.localStorage.getItem("user")
+    let my_user = window.localStorage.getItem("user");
     if (my_user) {
-      setUser(JSON.parse(my_user))
+      setUser(JSON.parse(my_user));
     }
   }, []);
   const handleLogin = async (event) => {
@@ -120,7 +120,7 @@ const App = () => {
           </Togglable>
           <br />
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
           )}
         </div>
       )
