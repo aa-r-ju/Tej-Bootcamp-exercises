@@ -4,7 +4,7 @@ import { useState } from "react"
 const Blog = ({ blog }) => {
   const [showData, setShowData] = useState('')
 
-  const blogStyle = {
+  const blogStyling = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
@@ -17,7 +17,7 @@ const Blog = ({ blog }) => {
 }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyling}>
       <div>
         {blog.title}
         <button onClick={togglAble}>
@@ -34,6 +34,7 @@ const Blog = ({ blog }) => {
             </button>
           </div>
           <div>{blog.author}</div>
+          <div>{blog.name}</div>
         </div>
       )}
     </div>

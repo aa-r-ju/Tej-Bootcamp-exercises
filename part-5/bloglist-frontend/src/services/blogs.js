@@ -3,8 +3,10 @@ const baseUrl = 'http://localhost:3003/api/blogs/'
 
 let token = null
 
-const setToken = newToken => {
-  token = `Bearer ${newToken}`
+const setToken = () => {
+  const userToken = JSON.parse(window.localStorage.getItem("user"))
+  token = `Bearer ${userToken.token}`
+  return token
 }
 
 const getAll = async (blogs) => {
@@ -13,8 +15,9 @@ const getAll = async (blogs) => {
 }
 
 const create = async (newblogs) => {
+  const myToken=setToken()
   const config = {
-    headers: { Authorization: token },
+    headers: { Authorization: myToken },
   }
   const response = await axios.post(baseUrl, newblogs, config)
   return response.data;
