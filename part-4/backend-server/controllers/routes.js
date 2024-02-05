@@ -1,8 +1,9 @@
 const Blog = require("../models/note")
 const app = require("express").Router()
 const User = require("../models/user")
+const {info }= require("../utils/logger")
 const jwt = require('jsonwebtoken');
-const { tokenExtractor } = require("../utils/middleware");
+const { tokenExtractor,userExtractor } = require("../utils/middleware");
 app.get('/', async(request, response) => {
   const blogs = await Blog
     .find({}).populate("user",{username:1, name: 1})
@@ -48,21 +49,30 @@ app.post('/', tokenExtractor, async (request, response, next) => {
 
 
 
-app.delete('/:id', async (request, response,next) => {
+app.delete('/:id', tokenExtractor, userExtractor, async (request, response, next) => {
   try {
     const user = request.user;
     const blog = await Blog.findById(request.params.id);
-    if (blog.user.toString() === user.id.toString()) {
-      await Blog.findByIdAndRemove(request.params.id);
-      response.status(204).send("Blog deleted");
-    } else {
-      response.status(401).send("Unauthorized deletion tried");
+
+    if (!blog) {
+      return response.status(404).send("Blog not found");
     }
+    info(user, blog.user);
+    
+    // Ensure blog.user exists before accessing its properties
+    if (!blog.user || blog.user.toString() !== user.id.toString()) {
+      return response.status(401).send("Unauthorized deletion tried");
+    }
+    
+    await Blog.findByIdAndDelete(request.params.id);
+    response.status(204).send("Blog deleted");
+  } catch (error) {
+    next(error);
   }
-  catch (error) {
-    next(error)
-  }
-})
+});
+
+
+
 app.put('/:id', async (request, response, next) => {
   const { likes } = request.body;
   try {

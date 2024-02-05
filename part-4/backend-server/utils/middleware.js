@@ -44,7 +44,7 @@ const unknownEndpoint = (request, response) => {
         if (decodedToken && decodedToken.id) {
           const user = await User.findById(decodedToken.id);
           if (user) {
-            request.user = user._id;
+            request.user = user;
             next();
           }
         }

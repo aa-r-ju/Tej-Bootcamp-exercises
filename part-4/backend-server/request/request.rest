@@ -3,21 +3,21 @@ GET http://localhost:3003/api/blogs
 
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iktpbmc3NSIsImlkIjoiNjU5ZTRjNjYxZGMzYjA4MzE3ODU3MGNhIiwiaWF0IjoxNzA0ODc5MDExLCJleHAiOjE3MDQ4ODI2MTF9.XVgoWVzeGWNUAAJcIOCujbgkSAVMwm1IKE2mDQmUyPM
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFhcmp1MjA1NyIsImlkIjoiNjViY2JlNmIxZDBmYzQ3NjVmOWI2MjkzIiwiaWF0IjoxNzA2ODY4NDE0LCJleHAiOjE3MDY4NzIwMTR9.xHf8qgWTy4O5g2cIX_hldvDSBkLD1wu9GPxP-JtU26Y
 
 {
-    "title": "hello_world",
-    "author": "Aarju",
-    "userId":"659e4c661dc3b083178570ca",
-    "url":"http://localhost:3001/api/notes/123",
-    "likes":100
+    "title": "HEllo Coder",
+    "author": "Aarju375",
+    "userId":"12345678345678a",
+    "url":"http://localhost:2001/api/notes/123",
+    "likes":1000
 }
 
 ###
-DELETE  http://localhost:3003/api/blogs/6596935f58c4ce640f986f66
+DELETE  http://localhost:3003/api/blogs/659e4c661dc3b083178570ca
 ###
 
-PUT http://localhost:3003/api/blogs/659bb285e8ef6ba652199894
+PUT http://localhost:3003/api/blogs/65bc799e6cc53d2e75e6c0d3
 Content-Type: application/json
 
 {
@@ -35,9 +35,9 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username":"King75",
-    "name":"Aarju",
-    "password":"geeta123"
+    "username":"Aarju2057",
+    "name":"Aarju_Pariyar",
+    "password":"25-Aug"
 
 }
 ###
@@ -46,11 +46,12 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username":"King75",
-    "password":"geeta123"
+    "username":"Aarju2057",
+    "password":"25-Aug"
 }
 ###
 
-DELETE  http://localhost:3003/api/blogs/65bc756a85bcd4f0e4fef7c8
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iktpbmc3NSIsImlkIjoiNjU5ZTRjNjYxZGMzYjA4MzE3ODU3MGNhIiwiaWF0IjoxNzA2ODUxOTA4LCJleHAiOjE3MDY4NTU1MDh9.UGbTKzZFYxoDkeeQPDycYJUPcwaZRrsfzT4q0rLpM_A
+DELETE  http://localhost:3003/api/blogs/65bcbf5a1d0fc4765f9b6297
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFhcmp1MjA1NyIsImlkIjoiNjViY2JlNmIxZDBmYzQ3NjVmOWI2MjkzIiwiaWF0IjoxNzA2ODcyODY4LCJleHAiOjE3MDY4NzY0Njh9.SR2FGeVS25jbIIw47MnP9Tt9JzqbTWVxeweOwzS0kGw
 ###
