@@ -1,37 +1,45 @@
-const BlogForm = ({handleAddNewBlog,newBlogTitle,newBlogAuthor,newBlogUrl,setnewBlogAuthor,setnewBlogTitle,setnewBlogUrl}) => {
-    return (
+const BlogForm = ({
+  handleAddNewBlog,
+  newBlogTitle,
+  newBlogAuthor,
+  newBlogUrl,
+  setnewBlogAuthor,
+  setnewBlogTitle,
+  setnewBlogUrl,
+}) => {
+  return (
+    <div>
+      <h2>create new</h2>
+      <form onSubmit={handleAddNewBlog}>
         <div>
-    <h2>create new</h2>
-          <form onSubmit={handleAddNewBlog}>
-            <div>
-              Title:
-              <input
-                type="text"
-                value={newBlogTitle}
-                onChange={({ target })=>setnewBlogTitle(target.value)}
-              />
-            </div>
-            <div>
-              Author:
-              <input
-                type="text"
-                value={newBlogAuthor}
-                onChange={({ target })=>setnewBlogAuthor(target.value)}
-              />
-            </div>
-            <div>
-              Url:
-              <input
-                type="text"
-                value={newBlogUrl}
-                onChange={({ target })=>setnewBlogUrl(target.value)}
-              />
-            </div>
+          Title:
+          <input
+            type="text"
+            value={newBlogTitle}
+            onChange={({ target }) => setnewBlogTitle(target.value)}
+          />
+        </div>
+        <div>
+          Author:
+          <input
+            type="text"
+            value={newBlogAuthor}
+            onChange={({ target }) => setnewBlogAuthor(target.value)}
+          />
+        </div>
+        <div>
+          Url:
+          <input
+            type="text"
+            value={newBlogUrl}
+            onChange={({ target }) => setnewBlogUrl(target.value)}
+          />
+        </div>
 
-            <button type="submit">create</button>
-            </form>
-     </div>
-    )
-}
+        <button type="submit">create</button>
+      </form>
+    </div>
+  );
+};
 
 export default BlogForm;
