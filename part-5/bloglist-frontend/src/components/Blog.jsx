@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setBlogs, loggedinUser }) => {
+const Blog = ({ blog, setBlogs, loggedinUser, handleLikes}) => {
   const [blogToShow, setBlogToShow] = useState([]);
 
   const blogStyling = {
@@ -19,22 +19,6 @@ const Blog = ({ blog, setBlogs, loggedinUser }) => {
     border: "solid",
   };
 
-  const handleLikes = async (blogs) => {
-    const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
-    try {
-      const response = await blogService.update(blogToUpdate.id, blogToUpdate);
-      setBlogs((prev) => {
-        return prev.map((oldblogs) => {
-          if (oldblogs.id === response.id) {
-            return response;
-          }
-          return oldblogs;
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDelete = async (blog) => {
     const confirmation = window.confirm(
@@ -65,7 +49,7 @@ const Blog = ({ blog, setBlogs, loggedinUser }) => {
         url: {blog.url}
         <br />
         Likes: {blog.likes}{" "}
-        <button onClick={() => handleLikes(blog)}>Like</button>
+        <button onClick={() => handleLikes(blog)}  className="blog-div">Like</button>
         <br />
         {blog.author}
         <br />

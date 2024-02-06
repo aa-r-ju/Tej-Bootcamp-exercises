@@ -98,6 +98,25 @@ const App = () => {
       setNotification(null);
     }, 2000);
   };
+
+  const handleLikes = async (blogs) => {
+    const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
+    try {
+      const response = await blogService.update(blogToUpdate.id, blogToUpdate);
+      setBlogs((prev) => {
+        return prev.map((oldblogs) => {
+          if (oldblogs.id === response.id) {
+            return response;
+          }
+          return oldblogs;
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   const blogForm = () => {
     return (
       <div>
@@ -126,6 +145,7 @@ const App = () => {
               blog={blog}
               setBlogs={setBlogs}
               loggedinUser={user}
+              handleLikes={handleLikes}
             />
           ))}
       </div>
