@@ -15,9 +15,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState("");
   const [errormessage, setErrormessage] = useState("");
-  const [newBlogTitle, setnewBlogTitle] = useState("");
-  const [newBlogAuthor, setnewBlogAuthor] = useState("");
-  const [newBlogUrl, setnewBlogUrl] = useState("");
+  
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -49,18 +47,9 @@ const App = () => {
     }
   };
 
-  const handleAddNewBlog = async (event) => {
-    event.preventDefault();
-    const newBlog = {
-      title: newBlogTitle,
-      author: newBlogAuthor,
-      url: newBlogUrl,
-    };
+  const handleAddBlog = async (newBlog) => {
     const createdBlog = await blogService.create(newBlog);
     setBlogs([...blogs, createdBlog]);
-    setnewBlogTitle("");
-    setnewBlogAuthor("");
-    setnewBlogUrl("");
     setNotification({
       message: `A new blog ${createdBlog.title}! by ${createdBlog.author} added successfully.`,
     });
@@ -126,15 +115,7 @@ const App = () => {
         <button onClick={handleLogout}>logout</button>
         <br />
         <Togglable buttonLabel="new note">
-          <BlogForm
-            handleAddNewBlog={handleAddNewBlog}
-            newBlogTitle={newBlogTitle}
-            newBlogAuthor={newBlogAuthor}
-            newBlogUrl={newBlogUrl}
-            setnewBlogTitle={setnewBlogTitle}
-            setnewBlogAuthor={setnewBlogAuthor}
-            setnewBlogUrl={setnewBlogUrl}
-          />
+        <BlogForm handleAddBlog={handleAddBlog} />
         </Togglable>
         <br />
         {blogs
