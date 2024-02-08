@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 app.use(express.json())
-const cors = require('cors')
+// const cors = require('cors')
 const notesControllers = require("./controllers/routes")
 const usersControllers = require("./controllers/users")
 const mongoose = require('mongoose')
@@ -15,7 +15,7 @@ const loginController = require("./controllers/login")
 mongoose.connect(url)
 
 
-app.use(cors())
+// app.use(cors())
 app.use(express.static("dist"))
 
 app.use(errorHandler)
