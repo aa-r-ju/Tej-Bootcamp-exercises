@@ -49,7 +49,7 @@ const Blog = ({ blog, setBlogs, loggedinUser, handleLikes}) => {
         url: {blog.url}
         <br />
         Likes: {blog.likes}{" "}
-        <button onClick={() => handleLikes(blog)}  className="blog-div">Like</button>
+        <button onClick={() => handleLikes(blog)}  id="likes">Like</button>
         <br />
         {blog.author}
         <br />

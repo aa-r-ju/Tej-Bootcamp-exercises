@@ -24,18 +24,40 @@ describe("Login", function () {
     cy.contains("Login").click();
     cy.get("#username").type("Cypress");
     cy.get("#password").type("hello123");
-    cy.contains("login").click();
+    cy.get("#login-btn").click();
     cy.contains("Cypress Testing logged in");
   });
 
-  it.only("fails with wrong credentials", function () {
+  it("fails with wrong credentials", function () {
     cy.contains("Login").click();
     cy.get("#username").type("Cypress");
     cy.get("#password").type("wrong-password");
-    cy.contains("login").click();
+    cy.get("#login-btn").click();
     cy.get(".errormessage").should("contain", "wrong username or password")
     cy.get('.errormessage').should('have.css', 'color', 'rgb(255, 0, 0)')
     cy.get(".errormessage").should("have.css", "border-style", "solid");
+  });
+});
+
+
+describe("When logged in", function () {
+  beforeEach(function () {
+    cy.contains("Login").click();
+    cy.get("#username").type("Cypress");
+    cy.get("#password").type("hello123");
+    cy.contains("login").click();
+  });
+
+  it("A blog can be created", function () {
+    cy.contains("new note").click();
+    cy.get("#title").type("Title added by cypress test");
+    cy.get("#author").type("Cypress In-built Tester");
+    cy.get("#url").type("https://testingurl.com.np");
+    cy.get("#form").click();
+    cy.contains("Title added by cypress test");
+    cy.contains("Cypress In-built Tester");
+    cy.get(".notification").should("have.css", "color", "rgb(0, 128, 0)");
+    cy.get(".notification").should("have.css", "border-style", "solid");
   });
 });
 })
