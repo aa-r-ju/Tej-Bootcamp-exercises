@@ -48,7 +48,7 @@ describe("When logged in", function () {
     cy.contains("login").click();
   });
 
-  it("A blog can be created", function () {
+  const createBlog = function () {
     cy.contains("new note").click();
     cy.get("#title").type("Title added by cypress test");
     cy.get("#author").type("Cypress In-built Tester");
@@ -58,6 +58,16 @@ describe("When logged in", function () {
     cy.contains("Cypress In-built Tester");
     cy.get(".notification").should("have.css", "color", "rgb(0, 128, 0)");
     cy.get(".notification").should("have.css", "border-style", "solid");
-  });
+  };
+
+  it("A blog can be created", createBlog);
+
+  it("User can Like a blog", function () {
+    createBlog();
+    cy.contains("view").click();
+    cy.contains("0");
+    cy.get("#likes").click();
+    cy.contains("1");
 });
+})
 })
