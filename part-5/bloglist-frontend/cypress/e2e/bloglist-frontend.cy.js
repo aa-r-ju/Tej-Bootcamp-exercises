@@ -63,7 +63,7 @@ describe("When logged in", function () {
   it("A blog can be created", createBlog);
 
   it("User can Like a blog", function () {
-    createBlog();
+    createBlog();   
     cy.contains("view").click();
     cy.contains("0");
     cy.get("#likes").click();
