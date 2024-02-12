@@ -1,10 +1,14 @@
-describe('Blog app', function() {
-  beforeEach(function() {
-    // cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    cy.visit('http://localhost:5173')
-  })
+describe("Blog app", function () {
+  beforeEach(function () {
+    // cy.request("POST", "http://localhost:3003/api/testing/reset");
+    cy.request("POST", `${Cypress.env("BACKEND")}/testing/reset`);
+    cy.visit("http://localhost:5173/");
 
-  it('Login form is shown', function() {
-    cy.request("login")
-  })
-})
+  });
+
+  it("Login form is shown", function () {
+    cy.contains("Login").click();
+    cy.contains("username");
+    cy.contains("password");
+  });
+});
