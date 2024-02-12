@@ -80,5 +80,21 @@ it("User can delete a blog", function () {
   cy.get(".notification").should("have.css", "color", "rgb(0, 128, 0)");
   cy.get(".notification").should("have.css", "border-style", "solid");
 })
+it("Remove button is visible only to the creator", function () {
+  createBlog();
+  cy.contains("logout").click();
+  const user2 = {
+    name: 'Another User',
+    username: 'anotheruser',
+    password:'2468'
+  }
+  cy.request('POST', `${Cypress.env("BACKEND")}/users`, user2);
+  cy.contains("Login").click();
+  cy.get("#username").type("anotheruser");
+  cy.get("#password").type("2468");
+  cy.contains("login").click();
+
+  cy.get("#remove").should("not.exist");
+})
 })
 })
