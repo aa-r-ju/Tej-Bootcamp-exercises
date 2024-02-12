@@ -3,14 +3,14 @@ GET http://localhost:3003/api/blogs
 
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFhcmp1MjA1NyIsImlkIjoiNjViY2JlNmIxZDBmYzQ3NjVmOWI2MjkzIiwiaWF0IjoxNzA3MTIyNjc3LCJleHAiOjE3MDcxMjYyNzd9.lp4Zik707qRKZvLlvmpYoiOelsW5ya2H7WwzEFtRpSw
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkN5cHJlc3MiLCJpZCI6IjY1YzlkYzEyZmYwZjU3MzVlOWMxZGRkMCIsImlhdCI6MTcwNzcyODEzNSwiZXhwIjoxNzA3NzMxNzM1fQ.NArzviVqCErOOVTE_AXmHl4hUBeVAzaNFlryDTI0jks
 
 {
-    "title": "HEllo Coder",
+    "title": "HEllo Cypress",
     "author": "Aarju375",
-    "userId":"12345678345678a",
+    "userId":"12345678345678f",
     "url":"http://localhost:2001/api/notes/123",
-    "likes":1000
+    "likes":100
 }
 
 ###
@@ -46,12 +46,12 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username":"TejFellow",
-    "password":"12345"
+    "username":"Cypress",
+    "password":"hello123"
 }
 ###
 
-DELETE  http://localhost:3003/api/blogs/6596935d58c4ce640f986f64
+DELETE  http://localhost:3003/api/blogs/65c9dd32ff0f5735e9c1dddc
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iktpbmc3NSIsImlkIjoiNjU5ZTRjNjYxZGMzYjA4MzE3ODU3MGNhIiwiaWF0IjoxNzA3MTIzMTk1LCJleHAiOjE3MDcxMjY3OTV9.h7B4bRiBSgpXl2qrJZYsRhXIzM2EqqOhHhgHowwFC1s
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkN5cHJlc3MiLCJpZCI6IjY1YzlkYzEyZmYwZjU3MzVlOWMxZGRkMCIsImlhdCI6MTcwNzcyODEzNSwiZXhwIjoxNzA3NzMxNzM1fQ.NArzviVqCErOOVTE_AXmHl4hUBeVAzaNFlryDTI0jks
 ###

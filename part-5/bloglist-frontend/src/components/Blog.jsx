@@ -4,6 +4,9 @@ import blogService from "../services/blogs";
 const Blog = ({ blog, setBlogs, loggedinUser, handleLikes,setNotification}) => {
   const [blogToShow, setBlogToShow] = useState([]);
 
+console.log(loggedinUser.username,blog,"dfgh")
+
+
   const blogStyling = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -60,10 +63,11 @@ const Blog = ({ blog, setBlogs, loggedinUser, handleLikes,setNotification}) => {
         {blog.user.name}
         <br />
         <div>
-          {loggedinUser.username === blog.user.username ? (
+          {loggedinUser.id === blog.user.id ? (
             <button
+             id="remove"
               onClick={() => handleDelete(blog)}
-              style={blogStyle.removebutton} id="remove"
+              style={blogStyling.removebutton}
             >
               Remove
             </button>

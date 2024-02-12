@@ -128,6 +128,7 @@ const App = () => {
               loggedinUser={user}
               handleLikes={handleLikes}
               setNotification={setNotification}
+
             />
           ))}
       </div>

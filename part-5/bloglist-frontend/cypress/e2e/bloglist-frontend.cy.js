@@ -69,5 +69,16 @@ describe("When logged in", function () {
     cy.get("#likes").click();
     cy.contains("1");
 });
+it("User can delete a blog", function () {
+  createBlog();
+  cy.contains("view").click();
+  cy.get("#remove").click();
+  cy.contains(".notification",
+  "Blog deleted successfully!",
+  { matchCase: false }
+  );
+  cy.get(".notification").should("have.css", "color", "rgb(0, 128, 0)");
+  cy.get(".notification").should("have.css", "border-style", "solid");
+})
 })
 })
