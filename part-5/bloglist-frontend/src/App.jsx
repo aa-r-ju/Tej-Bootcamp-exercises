@@ -21,6 +21,7 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
     let my_user = window.localStorage.getItem("user");
     if (my_user) {
+      console.log(my_user)
       setUser(JSON.parse(my_user));
     }
   }, []);

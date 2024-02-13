@@ -4,7 +4,7 @@ import blogService from "../services/blogs";
 const Blog = ({ blog, setBlogs, loggedinUser, handleLikes,setNotification}) => {
   const [blogToShow, setBlogToShow] = useState([]);
 
-console.log(loggedinUser.username,blog,"dfgh")
+console.log(loggedinUser.id,blog,"dfgh")
 
 
   const blogStyling = {
@@ -56,7 +56,9 @@ console.log(loggedinUser.username,blog,"dfgh")
         url: {blog.url}
         <br />
         Likes: {blog.likes}{" "}
-        <button onClick={() => handleLikes(blog)}  id="likes">Like</button>
+        <button onClick={() => handleLikes(blog)} id="likes" className="likes">
+          Like
+        </button>
         <br />
         {blog.author}
         <br />
@@ -78,8 +80,11 @@ console.log(loggedinUser.username,blog,"dfgh")
   }
   return (
     <div style={blogStyling} className="blog-div">
-      {blog.title} {blog.author}
-      <button onClick={() => setBlogToShow([...blogToShow, blog.id])}>
+     {blog.title} {blog.author}{" "}
+      <button
+        onClick={() => setBlogToShow([...blogToShow, blog.id])}
+        className="view"
+      >
         view
       </button>
     </div>
