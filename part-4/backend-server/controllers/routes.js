@@ -57,7 +57,7 @@ app.delete('/:id', tokenExtractor, userExtractor, async (request, response, next
     if (!blog) {
       return response.status(404).send("Blog not found");
     }
-    info(user, blog.user);
+    // info(user, blog.user);
     
     // Ensure blog.user exists before accessing its properties
     if (!blog.user || blog.user.toString() !== user.id.toString()) {

@@ -41,6 +41,7 @@ const update = async (id, blogToUpdate) => {
 };
 
 const deleteBlog = async (id) => {
+  console.log(id,"id from backend")
   setToken(); // Set token before making the request
   console.log("Token:", token); // Check if the token is set correctly
   const config = {
@@ -48,6 +49,7 @@ const deleteBlog = async (id) => {
   };
   try {
     const response = await axios.delete(`${baseUrl}/${id}`, config);
+    console.log(response,"response")
     return response;
   } catch (error) {
     console.error("Error deleting blog:", error);

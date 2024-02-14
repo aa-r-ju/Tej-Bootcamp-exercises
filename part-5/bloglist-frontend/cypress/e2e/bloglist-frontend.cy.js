@@ -93,7 +93,7 @@ it("User can delete a blog", function () {
   };
   supportcreateBlog(newBlog);
   cy.contains("view").click();
-  cy.wait(3000);
+  cy.wait(300);
   cy.get("#remove").click();
   cy.contains(".notification", "Blog deleted successfully!", {
     matchCase: false,

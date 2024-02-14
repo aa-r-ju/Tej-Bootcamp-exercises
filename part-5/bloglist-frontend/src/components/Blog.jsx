@@ -1,11 +1,18 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setBlogs, loggedinUser, handleLikes,setNotification}) => {
+const Blog = ({
+  blog,
+  setBlogs,
+  loggedinUser,
+  handleLikes,
+  setNotification,
+}) => {
   const [blogToShow, setBlogToShow] = useState([]);
 
-console.log(loggedinUser.id,blog,"dfgh")
-
+  // console.log(loggedinUser.id, blog, "dfgh");
+  // const currUser = JSON.parse(localStorage.getItem("userData")).username;
+  // console.log(currUser)
 
   const blogStyling = {
     paddingTop: 10,
@@ -22,7 +29,6 @@ console.log(loggedinUser.id,blog,"dfgh")
     border: "solid",
   };
 
-
   const handleDelete = async (blog) => {
     const confirmation = window.confirm(
       "Do you really want to remove this blog?"
@@ -31,9 +37,9 @@ console.log(loggedinUser.id,blog,"dfgh")
       try {
         await blogService.deleteBlog(blog.id);
         setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
-        setNotification({message:"Blog deleted successfully!"}); 
+        setNotification({ message: "Blog deleted successfully!" });
         setTimeout(() => {
-          setNotification(null); 
+          setNotification(null);
         }, 3000);
       } catch (error) {
         console.error("Error deleting blog:", error);
@@ -62,14 +68,15 @@ console.log(loggedinUser.id,blog,"dfgh")
         <br />
         {blog.author}
         <br />
-        {blog.user.name}
-        <br />
+        {/* {blog.user.name} */}
+        {/* <br /> */}
         <div>
-          {loggedinUser.id === blog.user.id ? (
+       {/* {console.log(loggedinUser.id,"loggedin user",blog.user.id,"blog's user", blog.user ,"only blog user")} */}
+          {(loggedinUser.username === blog.user.name) && blog.user.id ? (
             <button
-             id="remove"
               onClick={() => handleDelete(blog)}
               style={blogStyling.removebutton}
+              id="remove"
             >
               Remove
             </button>
@@ -80,7 +87,7 @@ console.log(loggedinUser.id,blog,"dfgh")
   }
   return (
     <div style={blogStyling} className="blog-div">
-     {blog.title} {blog.author}{" "}
+      {blog.title} {blog.author}{" "}
       <button
         onClick={() => setBlogToShow([...blogToShow, blog.id])}
         className="view"
