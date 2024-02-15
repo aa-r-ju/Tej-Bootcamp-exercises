@@ -1,21 +1,17 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { voteAction, addAnecdoteAction } from './reducers/anecdoteReducer';
-
+import AnecdoteForm from './components/AnecdoteForm';
+import { voteAction } from './reducers/anecdoteReducer';
 
 const App = () => {
   const anecdotes = useSelector(state => state);
-
-  const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes);
-
   const dispatch = useDispatch();
+
+  // Sort anecdotes by votes in descending order
+  const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes);
 
   const vote = (id) => {
     dispatch(voteAction(id));
-  };
-  
-  const addAnecdote = (content) => {
-    dispatch(addAnecdoteAction(content));
   };
 
   return (
@@ -32,16 +28,7 @@ const App = () => {
           </div>
         </div>
       )}
-      <h2>create new</h2>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        const content = e.target.anecdote.value;
-        addAnecdote(content);
-        e.target.anecdote.value = ''; // Clear the input after submitting
-      }}>
-        <div><input name="anecdote" /></div>
-        <button type="submit">create</button>
-      </form>
+      <AnecdoteForm />
     </div>
   );
 };
