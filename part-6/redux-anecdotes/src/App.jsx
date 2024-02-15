@@ -1,13 +1,17 @@
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 const App = () => {
-  const anecdotes = useSelector(state => state)
-  const dispatch = useDispatch()
+  const anecdotes = useSelector(state => state);
+  const dispatch = useDispatch();
 
   const vote = (id) => {
     dispatch({ type: 'VOTE', id });
   };
-  
+
+  const addAnecdote = (content) => {
+    dispatch({ type: 'ADD_ANECDOTE', content });
+  };
 
   return (
     <div>
@@ -24,12 +28,17 @@ const App = () => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        const content = e.target.anecdote.value;
+        addAnecdote(content);
+        e.target.anecdote.value = ''; // Clear the input after submitting
+      }}>
+        <div><input name="anecdote" /></div>
+        <button type="submit">create</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
