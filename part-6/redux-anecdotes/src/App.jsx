@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { voteAction, addAnecdoteAction } from './reducers/anecdoteReducer';
+
 
 const App = () => {
   const anecdotes = useSelector(state => state);
@@ -9,11 +11,11 @@ const App = () => {
   const dispatch = useDispatch();
 
   const vote = (id) => {
-    dispatch({ type: 'VOTE', id });
+    dispatch(voteAction(id));
   };
-
+  
   const addAnecdote = (content) => {
-    dispatch({ type: 'ADD_ANECDOTE', content });
+    dispatch(addAnecdoteAction(content));
   };
 
   return (

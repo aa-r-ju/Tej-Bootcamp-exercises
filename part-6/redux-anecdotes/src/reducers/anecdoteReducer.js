@@ -19,9 +19,24 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject);
 
+// Action Types
+const VOTE = 'VOTE';
+const ADD_ANECDOTE = 'ADD_ANECDOTE';
+
+// Action Creators
+const voteAction = (id) => ({
+  type: VOTE,
+  id,
+});
+
+const addAnecdoteAction = (content) => ({
+  type: ADD_ANECDOTE,
+  content,
+});
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'VOTE':
+    case VOTE:
       const id = action.id;
       const anecdoteToVote = state.find(anecdote => anecdote.id === id);
 
@@ -37,7 +52,7 @@ const reducer = (state = initialState, action) => {
 
       return state;
 
-    case 'ADD_ANECDOTE':
+    case ADD_ANECDOTE:
       const newAnecdote = {
         content: action.content,
         id: getId(),
@@ -50,5 +65,9 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export {
+  voteAction,
+  addAnecdoteAction,
+  reducer
+};
 
