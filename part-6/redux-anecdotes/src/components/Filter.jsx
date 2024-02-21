@@ -16,18 +16,18 @@
 //   export default Filter
 
 
+// Filter.jsx
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilterAction } from '../reducers/filterreducer';
+import { setFilter } from '../reducers/filterReducer';
 
 const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(state => String(state.filter) || '');
-  console.log(filter,"aarju")
+  const filter = useSelector(state => state.filter || ''); // Removed unnecessary String conversion
 
   const handleChange = (event) => {
     const newFilter = event.target.value;
-    dispatch(setFilterAction(newFilter));
+    dispatch(setFilter(newFilter));
   };
 
   const style = {
@@ -42,6 +42,7 @@ const Filter = () => {
 };
 
 export default Filter;
+
 
 
 

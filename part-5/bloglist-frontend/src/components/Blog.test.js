@@ -45,7 +45,6 @@ test("Likes and Url will be shown when toggled", async () => {
   const user = userEvent.setup();
   const button = screen.getByText("view");
   await user.click(button);
-  // screen.debug();
 
   const div = container.querySelector(".blog-div");
   expect(div).toHaveTextContent(

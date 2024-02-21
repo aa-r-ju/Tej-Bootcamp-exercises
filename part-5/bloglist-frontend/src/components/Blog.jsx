@@ -10,10 +10,6 @@ const Blog = ({
 }) => {
   const [blogToShow, setBlogToShow] = useState([]);
 
-  // console.log(loggedinUser.id, blog, "dfgh");
-  // const currUser = JSON.parse(localStorage.getItem("userData")).username;
-  // console.log(currUser)
-
   const blogStyling = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -68,11 +64,10 @@ const Blog = ({
         <br />
         {blog.author}
         <br />
-        {/* {blog.user.name} */}
-        {/* <br /> */}
+        {blog.user.name} 
+         <br />
         <div>
-       {/* {console.log(loggedinUser.id,"loggedin user",blog.user.id,"blog's user", blog.user ,"only blog user")} */}
-          {(loggedinUser.username === blog.user.name) && blog.user.id ? (
+          {(loggedinUser.username === blog.user.username || loggedinUser.id === blog.user) ? (
             <button
               onClick={() => handleDelete(blog)}
               style={blogStyling.removebutton}

@@ -40,6 +40,7 @@ const App = () => {
       <button onClick={bad} >Bad</button>
       <button onClick={zero}>reset stats</button>
       <div>good {store.getState().good}</div>
+      {/* {console.log(store.getState().good,"test")} */}
       <div>ok {store.getState().ok}</div>
       <div>bad {store.getState().bad}</div>
     </div>

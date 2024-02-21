@@ -1,22 +1,19 @@
+// AnecdoteForm.jsx
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addAnecdoteAction } from '../reducers/anecdoteReducer';
+import { addAnecdote } from '../reducers/anecdoteReducer'; // Fix import name
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
 
-  const addAnecdote = (content) => {
-    dispatch(addAnecdoteAction(content));
-  };
-
-  const vote = (id) => {
-    dispatch(voteAction(id));
+  const addNewAnecdote = (content) => {
+    dispatch(addAnecdote(content));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const content = e.target.anecdote.value;
-    addAnecdote(content);
+    addNewAnecdote(content);
     e.target.anecdote.value = ''; // Clear the input after submitting
   };
 

@@ -14,7 +14,7 @@ const getAll = async (blogs) => {
 };
 
 const create = async (newblogs) => {
-  setToken(); // Set token before making the request
+  setToken(); 
   const config = {
     headers: { Authorization: token },
   };
@@ -27,7 +27,7 @@ const create = async (newblogs) => {
 };
 
 const update = async (id, blogToUpdate) => {
-  setToken(); // Set token before making the request
+  setToken(); 
   const config = {
     headers: { Authorization: token },
   };
@@ -42,8 +42,8 @@ const update = async (id, blogToUpdate) => {
 
 const deleteBlog = async (id) => {
   console.log(id,"id from backend")
-  setToken(); // Set token before making the request
-  console.log("Token:", token); // Check if the token is set correctly
+  setToken(); 
+  console.log("Token:", token); 
   const config = {
     headers: { Authorization: token },
   };
@@ -53,7 +53,6 @@ const deleteBlog = async (id) => {
     return response;
   } catch (error) {
     console.error("Error deleting blog:", error);
-    // You might want to rethrow or handle the error here
     throw error;
   }
 };
