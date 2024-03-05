@@ -1,3 +1,4 @@
+//already arrenged the file with correct path
 const anecdotesAtStart = [
   "If it hurts, do it more often",
   "Adding manpower to a late software project makes it later!",
