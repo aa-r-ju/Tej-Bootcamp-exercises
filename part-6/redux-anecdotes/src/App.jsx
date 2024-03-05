@@ -7,10 +7,10 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
+      <Notification />
       <FilterAnecdote />
       <AnecdoteList />
       <AnecdoteForm />
-      <Notification />
     </div>
   );
 };
