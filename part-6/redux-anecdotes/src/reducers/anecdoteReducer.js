@@ -1,6 +1,6 @@
 //already arrenged the file with correct path
 import { createSlice } from "@reduxjs/toolkit";
-import { getAnecdotes } from "../services/anecdotes";
+import { getAnecdotes, createAnecdote } from "../services/anecdotes";
 
 const anecdoteReducer = createSlice({
   name: "anecdotes",
@@ -27,6 +27,13 @@ export const initializeAnecdote = () => {
   return async (dispatch) => {
     const notes = await getAnecdotes();
     dispatch(setAnecdotes(notes));
+  };
+};
+
+export const addAnecdotes = (anecdotetoAdd) => {
+  return async (dispatch) => {
+    const addedAnecdotes = await createAnecdote(anecdotetoAdd);
+    dispatch(newAnecdote(addedAnecdotes));
   };
 };
 
