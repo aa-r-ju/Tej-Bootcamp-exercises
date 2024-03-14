@@ -1,16 +1,30 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createAnecdote } from "../services/anecdotes";
 import { useDispatch } from "react-redux";
-import { addAnecdotes } from "../reducers/anecdoteReducer";
 import {
   resetNotification,
   setNotification,
 } from "../reducers/notificationReducer";
 const AnecdoteForm = () => {
-  const dispatch = useDispatch();
+  let dispatch = useDispatch();
+  const queryClient = useQueryClient();
+
+  const newAnecdoteMutation = useMutation({
+    mutationFn: createAnecdote,
+    onSuccess: (newAnecdote) => {
+      const returnAnecdotes = queryClient.getQueryData(["anecdotes"]);
+      queryClient.setQueryData(
+        ["anecdotes"],
+        returnAnecdotes.concat(newAnecdote)
+      );
+    },
+  });
+
   const addNew = async (event) => {
     event.preventDefault();
     const content = event.target.newAnecdote.value;
     const anecdoteToAdd = { content, votes: 0 };
-    dispatch(addAnecdotes(anecdoteToAdd));
+    newAnecdoteMutation.mutate(anecdoteToAdd);
     event.target.newAnecdote.value = "";
     dispatch(setNotification(`You created new anecdote ${content}`));
     setTimeout(() => {
