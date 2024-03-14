@@ -4,7 +4,6 @@ import {
   resetNotification,
   setNotification,
 } from "../reducers/notificationReducer";
-
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdote);
   const filters = useSelector((state) => state.filter);
@@ -19,13 +18,11 @@ const AnecdoteList = () => {
       dispatch(resetNotification());
     }, 5000);
   };
-
   const ShowAnecdote = filters
     ? anecdotes.filter((anecdote) =>
         anecdote.content.toLowerCase().includes(filters.toLowerCase())
       )
     : anecdotes;
-
   const sortedAnecdotes = [...ShowAnecdote];
   sortedAnecdotes.sort((a, b) => b.votes - a.votes);
   return (
@@ -42,5 +39,4 @@ const AnecdoteList = () => {
     </>
   );
 };
-
 export default AnecdoteList;

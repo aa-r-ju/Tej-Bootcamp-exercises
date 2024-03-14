@@ -14,6 +14,15 @@ const notificationReducer = createSlice({
   },
 });
 
+export const notificationTimeout = (messageToshow, timeInSec) => {
+  return async (dispatch) => {
+    dispatch(setNotification(`You voted '${messageToshow}'`));
+    setTimeout(() => {
+      dispatch(resetNotification());
+    }, timeInSec * 5000);
+  };
+};
+
 export const { setNotification, resetNotification } =
   notificationReducer.actions;
 export default notificationReducer.reducer;

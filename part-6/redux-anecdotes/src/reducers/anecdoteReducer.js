@@ -1,4 +1,3 @@
-//already arrenged the file with correct path
 import { createSlice } from "@reduxjs/toolkit";
 import {
   getAnecdotes,
@@ -10,14 +9,13 @@ const anecdoteReducer = createSlice({
   name: "anecdotes",
   initialState: [],
   reducers: {
-    voteAnecdote(state, action) {
+    upVote(state, action) {
       return state.map((anecdote) =>
         anecdote.id === action.payload.id
           ? { ...anecdote, votes: anecdote.votes + 1 }
           : anecdote
       );
     },
-
     newAnecdote(state, action) {
       return state.concat(action.payload);
     },
@@ -26,14 +24,12 @@ const anecdoteReducer = createSlice({
     },
   },
 });
-
 export const initializeAnecdote = () => {
   return async (dispatch) => {
     const notes = await getAnecdotes();
     dispatch(setAnecdotes(notes));
   };
 };
-
 export const addAnecdotes = (anecdotetoAdd) => {
   return async (dispatch) => {
     const addedAnecdotes = await createAnecdote(anecdotetoAdd);
@@ -41,13 +37,11 @@ export const addAnecdotes = (anecdotetoAdd) => {
   };
 };
 
-export const upVote = (anecdoteToUpdate) => {
+export const voteAnecdote = (anecdoteToUpdate) => {
   return async (dispatch) => {
     const response = await upVoteAnecdote(anecdoteToUpdate);
-    dispatch(voteAnecdote(response));
+    dispatch(upVote(response));
   };
 };
-
-export const { voteAnecdote, newAnecdote, setAnecdotes } =
-  anecdoteReducer.actions;
+export const { upVote, newAnecdote, setAnecdotes } = anecdoteReducer.actions;
 export default anecdoteReducer.reducer;
