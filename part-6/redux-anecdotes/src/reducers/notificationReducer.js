@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const notificationReducer = createSlice({
   name: "notification",
   initialState: "All notifications",
@@ -19,7 +18,7 @@ export const notificationTimeout = (messageToshow, timeInSec) => {
     dispatch(setNotification(`You voted '${messageToshow}'`));
     setTimeout(() => {
       dispatch(resetNotification());
-    }, timeInSec * 5000);
+    }, timeInSec * 1000);
   };
 };
 
