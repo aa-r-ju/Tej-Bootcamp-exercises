@@ -7,6 +7,7 @@ import {
   useParams,
   useNavigate,
 } from "react-router-dom";
+import { useField } from "../hooks/index";
 
 const Menu = () => {
   const padding = {
@@ -15,9 +16,11 @@ const Menu = () => {
   return (
     <div>
       <Link style={padding} to="/">
+        {" "}
         anecdotes
       </Link>
       <Link style={padding} to="/create">
+        {" "}
         create new
       </Link>
       <Link style={padding} to="/about">
@@ -29,9 +32,8 @@ const Menu = () => {
 
 const Anecdote = ({ anecdotes }) => {
   const id = useParams().id;
-  console.log(anecdotes, "aarju");
+  console.log(anecdotes);
   const anecdote = anecdotes.find((anecdote) => anecdote.id == id);
-  console.log(anecdote, "testing");
   return (
     <>
       <h2>{anecdote.content}</h2>
@@ -54,12 +56,10 @@ const AnecdoteList = ({ anecdotes }) => (
     </ul>
   </div>
 );
-
 const About = () => (
   <div>
     <h2>About anecdote app</h2>
     <p>According to Wikipedia:</p>
-
     <em>
       An anecdote is a brief, revealing account of an individual person or an
       incident. Occasionally humorous, anecdotes differ from jokes because their
@@ -69,14 +69,12 @@ const About = () => (
       about a person, place, or thing through the concrete details of a short
       narrative. An anecdote is "a story with a point."
     </em>
-
     <p>
       Software engineering is full of excellent anecdotes, at this app you can
       find the best and add more.
     </p>
   </div>
 );
-
 const Footer = () => (
   <div>
     Anecdote app for <a href="https://fullstackopen.com/">Full Stack Open</a>.
@@ -89,20 +87,20 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
-  const [info, setInfo] = useState("");
+  const content = useField("");
+  const author = useField("");
+  const info = useField("");
+  console.log(content, "content");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
   };
-
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -110,33 +108,28 @@ const CreateNew = (props) => {
         <div>
           content
           <input
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            type={content.type}
+            value={content.value}
+            onChange={content.onChange}
           />
         </div>
         <div>
           author
           <input
-            name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            type={author.type}
+            value={author.value}
+            onChange={author.onChange}
           />
         </div>
         <div>
           url for more info
-          <input
-            name="info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-          />
+          <input type={info.type} value={info.value} onChange={info.onChange} />
         </div>
         <button>create</button>
       </form>
     </div>
   );
 };
-
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -154,43 +147,34 @@ const App = () => {
       id: 2,
     },
   ]);
-
   const [notification, setNotification] = useState("");
   const navigate = useNavigate();
-
   const showNotification = (anecdote) => {
     setNotification(`a new anecdote ${anecdote.content} created!`);
     setTimeout(() => {
       setNotification("");
     }, 5000);
   };
-
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
     showNotification(anecdote);
     navigate("/");
   };
-
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
-
   const vote = (id) => {
     const anecdote = anecdoteById(id);
-
     const voted = {
       ...anecdote,
       votes: anecdote.votes + 1,
     };
-
     setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
   };
-
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-      <h3> {notification ? <div>{notification}</div> : null}</h3>
-
+      {notification ? <div>{notification}</div> : null}
       <Routes>
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path="/create" element={<CreateNew addNew={addNew} />} />
@@ -198,11 +182,10 @@ const App = () => {
         <Route
           path="/anecdotes/:id"
           element={<Anecdote anecdotes={anecdotes} />}
-        />{" "}
+        />
       </Routes>
       <Footer />
     </div>
   );
 };
-
 export default App;
