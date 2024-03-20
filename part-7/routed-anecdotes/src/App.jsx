@@ -16,11 +16,9 @@ const Menu = () => {
   return (
     <div>
       <Link style={padding} to="/">
-        {" "}
         anecdotes
       </Link>
       <Link style={padding} to="/create">
-        {" "}
         create new
       </Link>
       <Link style={padding} to="/about">
@@ -32,7 +30,8 @@ const Menu = () => {
 
 const Anecdote = ({ anecdotes }) => {
   const id = useParams().id;
-  console.log(anecdotes);
+  console.log(anecdotes, "ctent");
+  console.log(id, "aarju sharmu");
   const anecdote = anecdotes.find((anecdote) => anecdote.id == id);
   return (
     <>
@@ -101,6 +100,13 @@ const CreateNew = (props) => {
       votes: 0,
     });
   };
+
+  const resetForm = () => {
+    content.resetAll();
+    author.resetAll();
+    info.resetAll();
+  };
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -127,6 +133,7 @@ const CreateNew = (props) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={() => resetForm()}>reset</button>
     </div>
   );
 };
