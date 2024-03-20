@@ -1,36 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import noteService from "./note";
-import Filter from './components/Filter';
-import PersonForm from './components/PersonForm';
-import Persons from './components/Persons';
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
-  const [newName, setNewName] = useState('');
-  const [newVal, setNewVal] = useState('');
-  const [searchVal, setSearchVal] = useState('');
+  const [newName, setNewName] = useState("");
+  const [newVal, setNewVal] = useState("");
+  const [searchVal, setSearchVal] = useState("");
   const [notification, setNotification] = useState();
 
   useEffect(() => {
-    noteService.getAll()
-      .then(initialNotes => {
+    noteService
+      .getAll()
+      .then((initialNotes) => {
         setPersons(initialNotes);
       })
-      .catch(error => {
-        showErrorNotification('Error fetching data from the server.');
-        console.error('Error fetching data:', error);
+      .catch(() => {
+        showErrorNotification("Error fetching data from the server.");
+        // console.error("Error fetching data:", error);
       });
   }, []);
 
   const showSuccessNotification = (message) => {
-    setNotification({ type: 'success', message });
+    setNotification({ type: "success", message });
     setTimeout(() => {
       setNotification(null);
     }, 5000);
   };
 
   const showErrorNotification = (message) => {
-    setNotification({ type: 'error', message});
+    setNotification({ type: "error", message });
     setTimeout(() => {
       setNotification(null);
     }, 5000);
@@ -40,47 +41,55 @@ const App = () => {
     event.preventDefault();
 
     let newPerson = { name: newName, number: newVal };
-    noteService.create(newPerson)
-     .then(value => {
-       setPersons([...persons,value]);
-       setNewName('');
-       setNewVal('');
-       showSuccessNotification(`${newPerson.name} added to the phonebook.`);
-     })
-     .catch(error => {
-      showErrorNotification(error.response.data.error)
-      console.error('Error adding person:', error);
-     });
+    noteService
+      .create(newPerson)
+      .then((value) => {
+        setPersons([...persons, value]);
+        setNewName("");
+        setNewVal("");
+        showSuccessNotification(`${newPerson.name} added to the phonebook.`);
+      })
+      .catch((error) => {
+        showErrorNotification(error.response.data.error);
+        console.error("Error adding person:", error);
+      });
 
+    const existingPerson = persons.find((person) => person.name === newName);
 
-     const existingPerson = persons.find((person) => person.name === newName);
+    if (existingPerson) {
+      const confirmUpdate = window.confirm(
+        `${newName} is already added to the phonebook. Replace the old number with the new one?`
+      );
 
-     if (existingPerson) {
-       const confirmUpdate = window.confirm(
-         `${newName} is already added to the phonebook. Replace the old number with the new one?`
-       );
-   
-       if (confirmUpdate) {
-         const updatedPerson = { ...existingPerson, number: newVal };
-   
-         noteService
-           .update(existingPerson.id, updatedPerson)
-           .then((updatedPerson) => {
-             setPersons(persons.map((person) => (person.id !== updatedPerson.id ? person : updatedPerson)));
-             showSuccessNotification(`${updatedPerson.name}'s number updated successfully.`);
-           })
-           .catch((error) => {
-             if (error.response && error.response.status === 404) {
-               showErrorNotification(`${updatedPerson.name} not found. The person may have been deleted.`);
-             } else {
-               showErrorNotification('Error updating person. Please try again.');
-             }
-             console.error('Error updating person:', error);
-           });
-       }
-     } else {
-        newPerson= {name:newName,number:newVal}
-     }
+      if (confirmUpdate) {
+        const updatedPerson = { ...existingPerson, number: newVal };
+
+        noteService
+          .update(existingPerson.id, updatedPerson)
+          .then((updatedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== updatedPerson.id ? person : updatedPerson
+              )
+            );
+            showSuccessNotification(
+              `${updatedPerson.name}'s number updated successfully.`
+            );
+          })
+          .catch((error) => {
+            if (error.response && error.response.status === 404) {
+              showErrorNotification(
+                `${updatedPerson.name} not found. The person may have been deleted.`
+              );
+            } else {
+              showErrorNotification("Error updating person. Please try again.");
+            }
+            console.error("Error updating person:", error);
+          });
+      }
+    } else {
+      newPerson = { name: newName, number: newVal };
+    }
   };
 
   const handleDelete = (id) => {
@@ -93,19 +102,22 @@ const App = () => {
         .remove(id)
         .then(() => {
           setPersons(persons.filter((person) => person.id !== id));
-          showSuccessNotification(`${personToDelete.name} deleted from the phonebook.`);
+          showSuccessNotification(
+            `${personToDelete.name} deleted from the phonebook.`
+          );
         })
         .catch((error) => {
           if (error.response && error.response.status === 404) {
-            showErrorNotification(`${personToDelete.name} not found. The person may have been deleted.`);
+            showErrorNotification(
+              `${personToDelete.name} not found. The person may have been deleted.`
+            );
           } else {
-            showErrorNotification('Error deleting person. Please try again.');
+            showErrorNotification("Error deleting person. Please try again.");
           }
-          console.error('Error deleting person:', error);
+          console.error("Error deleting person:", error);
         });
     }
   };
-
 
   const handleAddNote = (event) => {
     setNewName(event.target.value);
@@ -128,7 +140,14 @@ const App = () => {
       <h2>Phonebook</h2>
 
       {notification && (
-        <div style={{ color: notification.type === 'error' ? 'red' : 'green', border: '1px solid', padding: '10px', marginBottom: '10px' }}>
+        <div
+          style={{
+            color: notification.type === "error" ? "red" : "green",
+            border: "1px solid",
+            padding: "10px",
+            marginBottom: "10px",
+          }}
+        >
           {notification.message}
         </div>
       )}

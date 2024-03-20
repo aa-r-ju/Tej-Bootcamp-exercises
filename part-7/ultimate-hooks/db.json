@@ -1,10 +1,51 @@
 {
   "notes": [
-    { "id": 1, "content": "custom-hooks are awesome!" },
-    { "id": 2, "content": "best feature ever <3" }
+    {
+      "id": 1,
+      "content": "custom-hooks are awesome!"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "hello world",
+      "id": 3
+    },
+    {
+      "content": "TEJ Fellowship",
+      "id": 4
+    },
+    {
+      "content": "Testing the code",
+      "id": 5
+    }
   ],
   "persons": [
-    { "id": 1, "name": "mluukkai", "number": "040-5483923" },
-    { "id": 2, "name": "hellas", "number": "012-123123" }
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
+    },
+    {
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
+    },
+    {
+      "name": "Aarju",
+      "number": "98027389498",
+      "id": 3
+    },
+    {
+      "name": "Rushil sir",
+      "number": "000000",
+      "id": 4
+    },
+    {
+      "name": "By Aarju",
+      "number": "7635799",
+      "id": 5
+    }
   ]
 }
